@@ -6,4 +6,5 @@ class MyBot(Player):
 
     def make_move(self, board):
         #macht den besten move
+        # first emil change
         pass
