@@ -13,7 +13,9 @@ class Player():
         x_coordinate = (int(coordinates_list[0]) - 1)                       #Wegen Indexierung bei np-Arrays (1. Wert quasi y, 2. Wert quasi x)
         y_coordinate = 5 - int(coordinates_list[1])                  
            
-        if x_coordinate > 5 or y_coordinate > 5:                             #wenn Koordinaten außerhalb des Spielfelds liegen:
+        if x_coordinate >= 5 or y_coordinate >= 5:                          #####wenn Koordinaten außerhalb des Spielfelds liegen:
+            print("Ungültige Eingabe")
+        elif x_coordinate < 0 or y_coordinate < 0:
             print("Ungültige Eingabe")
         
         elif board.return_field_value(y_coordinate, x_coordinate) != 0:      #wenn Feld schon belegt:
