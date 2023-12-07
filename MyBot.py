@@ -8,11 +8,11 @@ class MyBotRandom(Player):
         self.number = number        #1 oder 2, wird bei make_move() als Setzstein übergeben, Spieler markiert mit seiner Nummer auf dem Feld
 
     def make_move(self, board):
-        x_coordinate = randint(1,5)
-        y_coordinate = randint(1,5)
-        while board.array[x_coordinate - 1][y_coordinate - 1] != 0:
-            x_coordinate = randint(1,5)
-            y_coordinate = randint(1,5)
+        x_coordinate = randint(0,4)
+        y_coordinate = randint(0,4)
+        while board.array[y_coordinate][x_coordinate] != 0:
+            x_coordinate = randint(0,4)
+            y_coordinate = randint(0,4)
 
         board.set_field_value(y_coordinate, x_coordinate, self.number)
         return board.array
