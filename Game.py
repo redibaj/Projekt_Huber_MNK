@@ -2,6 +2,7 @@ from Board import Board
 from Player import Player
 from MyBot import MyBotRandom
 from MyBot import MyBotReactive
+
 class Game:
     def __init__(self, m=5, n=5, k=4):
         self.m = m
