@@ -39,7 +39,7 @@ class MyBotReactive(Player):
         if self.possible_moves == []:
             self.make_random_move(board)
         else:
-            random_num = randint(0, len(possible_moves))
+            random_num = randint(0, len(self.possible_moves))
             board.set_field_value(self.possible_moves[random_num][0], self.possible_moves[random_num][1], self.number)     #sucht aus der Liste mit Tuplen ein zufälliges Tupel aus und setzt den Stein an dieser Stelle
             return board.array
         #kein diagonaler Check, weil es muss ja noch Luft nach oben sein :)
