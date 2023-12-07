@@ -13,7 +13,7 @@ class Board():
         return self.array[x][y]                   #self.array = Spielfeld, gibt Wert zurück um zu prüfen, ob an der Stelle gelegt werden darf
     
     def set_field_value(self, x, y, value):       #macht möglich, dass Spieler setzen können
-        self.array[x][y] = value
+        self.array[int(x)][int(y)] = value
 
     def has_won(self):                            #um alle Gewinnmöglichkeiten zu prüfen
         if self.has_won_horizontally() or self.has_won_vertically() or self.has_won_diagonally():
