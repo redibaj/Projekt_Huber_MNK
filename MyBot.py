@@ -71,7 +71,7 @@ class MyBotReactive(Player):
     
     def check_vertically(self, board):
         vertical_moves = []
-        transposed_board = np.transpose(self.array)                     #flippt das board um 90° -> die Spalten werden zu Zeilen                             
+        transposed_board = np.transpose(board.array)                     #flippt das board um 90° -> die Spalten werden zu Zeilen                             
         for row in transposed_board:                                                       #für jede Reihe in board.array
             for i in range(len(row) -3):                                              #für jedes Element in der Reihe
                 if row[i] != 0:                                                       #wenn das Element nicht 0 ist                                         
