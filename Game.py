@@ -15,9 +15,15 @@ class Game:
         choice = input(">>> ")
         if choice == 1:
             self.game_loop()
-        else:
-            self.player2 = MyBotRandom(number=2)
-            self.game_loop()
+        elif choice == 2:
+            print("Welches Level soll der Bot haben? [1] / [2]")
+            bot_level = input(">>> ")
+            if bot_level == 1:
+                self.player2 = MyBotRandom(number=2)
+                self.game_loop()
+            elif bot_level == 2:
+                self.player2 = MyBotReactive(number=2)
+                self.game_loop()
         
 
     def game_loop(self):
