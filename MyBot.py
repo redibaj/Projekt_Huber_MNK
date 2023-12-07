@@ -6,7 +6,6 @@ from random import randint
 class MyBotRandom(Player):
     def __init__(self, number):
         self.number = number        #1 oder 2, wird bei make_move() als Setzstein übergeben, Spieler markiert mit seiner Nummer auf dem Feld
-        self.possible_moves = []
 
     def make_move(self, board):
         x_coordinate = randint(0,4)
@@ -19,10 +18,9 @@ class MyBotRandom(Player):
         return board.array
 
 class MyBotReactive(Player):
-    possible_moves = []
-
     def __init__(self, number):
         self.number = number
+        self.possible_moves = []
     
     def make_random_move(self, board):
         x_coordinate = randint(0,4)
