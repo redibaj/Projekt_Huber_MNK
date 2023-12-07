@@ -14,15 +14,15 @@ class Game:
     def start(self):
         print("Wilkommen! Wie möchtest du spielen?\nPlayer vs. Player [1] / Player vs. Bot [2]")
         choice = input(">>> ")
-        if choice == 1:
+        if choice == "1":
             self.game_loop()
-        elif choice == 2:
+        elif choice == "2":
             print("Welches Level soll der Bot haben? [1] / [2]")
             bot_level = input(">>> ")
-            if bot_level == 1:
+            if bot_level == "1":
                 self.player2 = MyBotRandom(number=2)
                 self.game_loop()
-            elif bot_level == 2:
+            elif bot_level == "2":
                 self.player2 = MyBotReactive(number=2)
                 self.game_loop()
         

@@ -35,8 +35,8 @@ class MyBotReactive(Player):
         
     def make_move(self, board):
         #kein diagonaler Check, weil es muss ja noch Luft nach oben sein :)
-        self.check_horizontally()
-        self.check_vertically()
+        self.check_horizontally(board)
+        self.check_vertically(board)
         possible_moves = []
         possible_moves.extend(horizontal_moves).extend(vertical_moves)   #fügt alle halbwegs sinnvollen Züge in eine Liste ein
         if possible_moves == []:
