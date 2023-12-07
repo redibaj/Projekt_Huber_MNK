@@ -6,6 +6,7 @@ from random import randint
 class MyBotRandom(Player):
     def __init__(self, number):
         self.number = number        #1 oder 2, wird bei make_move() als Setzstein übergeben, Spieler markiert mit seiner Nummer auf dem Feld
+        self.possible_moves = []
 
     def make_move(self, board):
         x_coordinate = randint(0,4)
@@ -68,7 +69,7 @@ class MyBotReactive(Player):
                         pass
                 else: 
                     pass
-        return horizontal_moves
+        self.possible_moves.extend(horizontal_moves)
     
     def check_vertically(self, board):
         vertical_moves = []
@@ -91,6 +92,6 @@ class MyBotReactive(Player):
                         pass
                 else: 
                     pass                                          
-        return vertical_moves              
+        self.possible_moves.extend(vertical_moves)            
 
 
