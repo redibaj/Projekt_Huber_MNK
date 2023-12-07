@@ -1,5 +1,6 @@
 from Board import Board
 from Player import Player
+from MyBot import MyBotRandom
 class Game:
     def __init__(self, m=5, n=5, k=4):
         self.m = m
@@ -10,7 +11,14 @@ class Game:
         self.player2 = Player(name=input("Name Spieler 2: "), number=2)
     
     def start(self):
-        pass
+        print("Wilkommen! Wie möchtest du spielen?\nPlayer vs. Player [1] / Player vs. Bot [2]")
+        choice = input(">>> ")
+        if choice == 1:
+            self.game_loop()
+        else:
+            self.player2 = MyBotRandom(number=2)
+            self.game_loop()
+        
 
     def game_loop(self):
         print("Lasset die Spiele beginnen!")
@@ -27,3 +35,6 @@ class Game:
             if winner == True:
                 break
         print("Spiel vorbei")
+
+game1=Game()
+game1.start()
