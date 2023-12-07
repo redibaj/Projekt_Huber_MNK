@@ -38,7 +38,8 @@ class MyBotReactive(Player):
         self.check_horizontally(board)
         self.check_vertically(board)
         possible_moves = []
-        possible_moves.extend(horizontal_moves).extend(vertical_moves)   #fügt alle halbwegs sinnvollen Züge in eine Liste ein
+        possible_moves.extend(horizontal_moves)
+        possible_moves.extend(vertical_moves)   #fügt alle halbwegs sinnvollen Züge in eine Liste ein
         if possible_moves == []:
             self.make_random_move(board)
         else:
