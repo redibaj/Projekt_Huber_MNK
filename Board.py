@@ -28,6 +28,7 @@ class Board():
                     if (row[i] == row[i + 1] == row[i + 2] == row[i + 3]):           #wenn 4 Elemente in Folge gleich sind
                         print("Wir haben einen horizontalen Sieger!") 
                         print("Winning ELement: ", row[i])
+                        self.display()
                         return True                                                             
                     else:     
                         pass  

@@ -41,6 +41,7 @@ class Game:
             self.player2.make_move(board=self.board)
             winner = self.board.has_won()
             if winner == True:
+                self.board.display()
                 break
         print("Spiel vorbei")
 
