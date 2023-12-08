@@ -14,13 +14,16 @@ class Player():
            
         if x_coordinate >= 5 or y_coordinate >= 5:                           #wenn Koordinaten außerhalb des Spielfelds liegen:
             print("Ungültige Eingabe")
-            self.make_move(board=board)
+            return self.make_move(board=board)
+            
         elif x_coordinate < 0 or y_coordinate < 0:
             print("Ungültige Eingabe")
-            self.make_move(board=board)
+            return self.make_move(board=board)
+            
         elif board.return_field_value(y_coordinate, x_coordinate) != 0:      #wenn Feld schon belegt:
             print("Feld ist bereits belegt. Lege woanders")
-            self.make_move(board=board)
+            return self.make_move(board=board)
+            
         else:                                                                #wenn Feld frei:
             board.set_field_value(y_coordinate, x_coordinate, self.number)   #definiert in Board Klasse, lässt Spieler an gewünschter Stelle setzen
         

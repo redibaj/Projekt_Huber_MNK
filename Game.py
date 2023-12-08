@@ -31,16 +31,24 @@ class Game:
     def game_loop(self):
         print("Lasset die Spiele beginnen!")
         winner = False
-        while winner == False:
+        full_board = False
+        while winner == False and full_board == False:
             self.board.display()
             self.player1.make_move(board=self.board)
             winner = self.board.has_won()
             if winner == True:
                 break
+            if full_board == True:
+                self.board.display()
+                break
             self.board.display()
+            self.board.board_full()
             self.player2.make_move(board=self.board)
             winner = self.board.has_won()
             if winner == True:
+                self.board.display()
+                break
+            if full_board == True:
                 self.board.display()
                 break
         print("Spiel vorbei")

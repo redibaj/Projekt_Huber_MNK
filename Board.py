@@ -15,6 +15,17 @@ class Board():
     def set_field_value(self, x, y, value):       #macht möglich, dass Spieler setzen können
         self.array[int(x)][int(y)] = value
 
+    def board_full(self):
+        zero_counter = 25
+        for row in self.array:
+            for element in row:
+                if element != 0:
+                    zero_counter -= 1
+        while zero_counter != 0:
+            return False
+        if zero_counter == 0:
+            return True
+
     def has_won(self):                            #um alle Gewinnmöglichkeiten zu prüfen
         if self.has_won_horizontally() or self.has_won_vertically() or self.has_won_diagonally():
             return True                           #damit main-loop beendet wird  
