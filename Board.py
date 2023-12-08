@@ -41,7 +41,8 @@ class Board():
                 if row[i] != 0:                                             #schaut, ob Element nicht 0 ist
                     if row[i] == row[i + 1] == row[i + 2] == row[i + 3]:    #schuat, ob 4 Elemente in Folge gleich sind
                         print("Wir haben einen vertikalen Sieger!")
-                        print("Winning ELement: ", row[i])   
+                        print("Winning ELement: ", row[i])  
+                        self.display() 
                         return True                                                                          
                     else:                                                   
                         pass                                      
@@ -71,11 +72,13 @@ class Board():
             if x[0] == x[1] == x[2] == x[3] and x[0] != 0:                    #prüft ersten 4 Elemente beider Hauptdiagonalen und schaut, ob sie gleich sind
                 print("Wir haben einen diagonalen Sieger!")
                 print("Winning ELement: ", x[0])
+                self.display()
                 return True                                   
                 
             elif x[4] == x[3] == x[2] == x[1] and x[4] != 0:                  #prüft, ob die letzten 4 Elemente gleich sind und ob sie nicht 0 sind            
                 print("Wir haben einen diagonalen Sieger!")
                 print("Winning ELement: ", x[4])    
+                self.display()
                 return True                                                         
 
         #für zweite Hauptdiagonale:
@@ -89,6 +92,7 @@ class Board():
             if len(set(element)) == 1 and element != {0}:                    #Gefahr: Menge mit Wert 0: es wurde kein Wert von Spieler eingegeben, trotzdem ist 4 mal 0 in einer Reihe
                 print("Wir haben einen Nebendiagonalen Sieger!")
                 print("Winning ELement: ", element)
+                self.display()
                 return True
 
         return False               #erst hier, damit ganze Funktion durchlaufen wird und nicht bei erstem False abgebrochen wird      
