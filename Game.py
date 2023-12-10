@@ -9,18 +9,21 @@ class Game:
         self.n = n                                                                                  #definiert n-Wert
         self.k = k                                                                                  #definiert k-Wert
         self.board = Board()                                                                        #Spielfeld ein Objekt der Klasse Board
-        self.player1 = Player(name=input("Name Spieler 1: "), number=1)                             #Spieler1 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
-        self.player2 = Player(name=input("Name Spieler 2: "), number=2)                             #Spieler2 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
+        self.player1 = None                             #Spieler1 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
+        self.player2 = None                            #Spieler2 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
     
     def start(self):                                                                                #Methode, die vor eigenltichem Spielstart die gewünschten Parameter abfragt
         print("Wilkommen! Wie möchtest du spielen?\nPlayer vs. Player [1] / Player vs. Bot [2]")    #Begrüßung und Wahl der Spielart
         choice = input(">>> ")                                                                      #Spieler wählt Spielart
-        if choice == "1":                                                                           #wenn Spieler vs. Spieler gewählt:
+        if choice == "1":    
+            self.player1 = Player(name=input("Name Spieler 1: "), number=1)                             #Spieler1 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
+            self.player2 = Player(name=input("Name Spieler 2: "), number=2)                                                                        #wenn Spieler vs. Spieler gewählt:
             self.game_loop()                                                                        #game-loop wird gestartet
         elif choice == "2":                                                                         #wenn Spieler vs. Bot gewählt: 
             print("Welches Level soll der Bot haben? [1] / [2]")                                    #Frage nach gwünschtem Bot-Levels / der Schwierigkeitsstufe des Bots
             bot_level = input(">>> ")                                                               #Eingabe des Spielers
-            if bot_level == "1":                                                                    #wenn einfacher Bot (Level 1)
+            if bot_level == "1": 
+                self.player1 = Player(name=input("Name Spieler 1: "), number=1)                                                                   #wenn einfacher Bot (Level 1)
                 self.player2 = MyBotRandom(number=2)                                                #zweiter Spieler wird durch Bot Level 1 ersetzt, dieser bekommt Spielernummer/-markierung 2
                 self.game_loop()                                                                    #game-loop wird gestartet
             elif bot_level == "2":                                                                  #wenn schwierigerer Bot (Level 2)
