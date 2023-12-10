@@ -48,7 +48,7 @@ class MyBotReactive(Player):                                                #zwe
         for row in board.array:                                                       #für jede Reihe in board.array
             for i in range(len(row) -3):                                              #für jedes Element in der Reihe
                 if row[i] != 0:                                                       #wenn das Element nicht 0 ist                                         
-                    if (row[i] == row[i + 1]):                                        #wenn 4 Elemente in Folge gleich sind
+                    if (row[i] == row[i + 1]):                                        #wenn 2 Elemente in Folge gleich sind
                         if (row[i + 2]) > 4:
                             if row[i-1] == 0:
                                 self.possible_moves.append((row, i-1))
@@ -71,7 +71,7 @@ class MyBotReactive(Player):                                                #zwe
         for row in transposed_board:                                                  #für jede Reihe in board.array
             for i in range(len(row) -3):                                              #für jedes Element in der Reihe
                 if row[i] != 0:                                                       #wenn das Element nicht 0 ist                                         
-                    if (row[i] == row[i + 1]):                                        #wenn 4 Elemente in Folge gleich sind
+                    if (row[i] == row[i + 1]):                                        #wenn 2 Elemente in Folge gleich sind
                         if (row[i + 2]) > 4:
                             if row[i-1] == 0:
                                 self.possible_moves.append((row, i-1))
