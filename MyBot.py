@@ -36,6 +36,7 @@ class MyBotReactive(Player):                                                #zwe
                                                                             #kein diagonaler Check auf mögliche Spielzüge (es muss ja noch Luft nach oben sein :))
         self.check_horizontally(board)                                      #prüft auf spezielle Markierungsmuster auf horizontaler Ebene auf Spielfeld
         self.check_vertically(board)                                        #prüft auf spezielle Markierungsmuster auf vertikaler Ebene auf Spielfeld
+        print("Bot setzt hier: ")
         if self.possible_moves == []:                                       #sollten keine besorgniserregenden Spielzüge des Gegners, die Eingreifen des Bots bedarfen, vorhanden sein:
             self.make_random_move(board)                                    #dann soll ein zufälliger Zug gespielt werden
         else:                                                               #falls es doch eine der in check-Methoden definierten Situationen geben: 
