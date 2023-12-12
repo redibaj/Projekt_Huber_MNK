@@ -26,7 +26,8 @@ class Game:
                 self.player1 = Player(name=input("Name Spieler 1: "), number=1)                                                                   #wenn einfacher Bot (Level 1)
                 self.player2 = MyBotRandom(number=2)                                                #zweiter Spieler wird durch Bot Level 1 ersetzt, dieser bekommt Spielernummer/-markierung 2
                 self.game_loop()                                                                    #game-loop wird gestartet
-            elif bot_level == "2":                                                                  #wenn schwierigerer Bot (Level 2)
+            elif bot_level == "2":      
+                self.player1 = Player(name=input("Name Spieler 1: "), number=1)                                                                   #wenn schwierigerer Bot (Level 2)
                 self.player2 = MyBotReactive(number=2)                                              #Spieler 2 wird durch Bot Level 2 mit Spielernummer/-markierung 2 ersetzt
                 self.game_loop()                                                                    #game-loop wird gestartet
         
