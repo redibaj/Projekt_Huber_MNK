@@ -26,7 +26,6 @@ class Player():
       
         else:                                                                #wenn Feld frei ist:
             return board.set_field_value(y_coordinate, x_coordinate, self.number)   #definiert in Board Klasse, lässt Spieler an gewünschter Stelle mit seinem Zeichen (Zahl) setzen
-            print(f"Bot setzt hier: ({x_coordinate, y_coordinate})")
 
-        return board.array                                                   #gibt Spielfeld zurück, damit es in Game Klasse verwendet werden kann
+        #return board.array                                                   #gibt Spielfeld zurück, damit es in Game Klasse verwendet werden kann
                                                                              # -> Runde wird nicht zuende gespielt, wenn erster Spieler gewonnen hat
