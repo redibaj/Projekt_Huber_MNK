@@ -21,12 +21,12 @@ class Player():
             return self.make_move(board=board)                               #ruft Funktion nochmals auf, um erneute Eingabe zu ermöglichen. Return hat David hingepackt um alte Funktion zu schließen
             
         elif board.return_field_value(y_coordinate, x_coordinate) != 0:      #wenn ausgewähltes Feld schon belegt:
-            print("Feld ist bereits belegt. Lege woanders")                  #kommuniziert dem User, dass das Feld bereits belegt ist
             return self.make_move(board=board)                               #ruft Funktion nochmals auf, um erneute Eingabe zu ermöglichen. Return hat David hingepackt um alte Funktion zu schließen
-            
+            print("Feld ist bereits belegt. Lege woanders")                  #kommuniziert dem User, dass das Feld bereits belegt ist            
+      
         else:                                                                #wenn Feld frei ist:
+            return board.set_field_value(y_coordinate, x_coordinate, self.number)   #definiert in Board Klasse, lässt Spieler an gewünschter Stelle mit seinem Zeichen (Zahl) setzen
             print(f"Bot setzt hier: ({x_coordinate, y_coordinate})")
-            board.set_field_value(y_coordinate, x_coordinate, self.number)   #definiert in Board Klasse, lässt Spieler an gewünschter Stelle mit seinem Zeichen (Zahl) setzen
-        
+
         return board.array                                                   #gibt Spielfeld zurück, damit es in Game Klasse verwendet werden kann
                                                                              # -> Runde wird nicht zuende gespielt, wenn erster Spieler gewonnen hat

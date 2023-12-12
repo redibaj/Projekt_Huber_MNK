@@ -10,7 +10,7 @@ class Game:
         self.k = k                                                                                  #definiert k-Wert
         self.board = Board()                                                                        #Spielfeld ein Objekt der Klasse Board
         self.player1 = None                             #Spieler1 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
-        self.player2 = None                            #Spieler2 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
+        self.player2 = None                             #Spieler2 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
     
     def start(self):                                                                                #Methode, die vor eigenltichem Spielstart die gewünschten Parameter abfragt
         print("Wilkommen! Wie möchtest du spielen?\nPlayer vs. Player [1] / Player vs. Bot [2]")    #Begrüßung und Wahl der Spielart
