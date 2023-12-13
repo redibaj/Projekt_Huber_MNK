@@ -13,7 +13,18 @@ class Board():
         return self.array[x][y]                   #self.array = Spielfeld, gibt Wert zurück um zu prüfen, ob an der Stelle gelegt werden darf
     
     def set_field_value(self, x, y, value):       #macht möglich, dass Spieler setzen können
-        self.array[x][y] = value
+        self.array[int(x)][int(y)] = value
+
+    def board_full(self):
+        zero_counter = 25
+        for row in self.array:
+            for element in row:
+                if element != 0:
+                    zero_counter -= 1
+        while zero_counter != 0:
+            return False
+        if zero_counter == 0:
+            return True
 
     def has_won(self):                            #um alle Gewinnmöglichkeiten zu prüfen
         if self.has_won_horizontally() or self.has_won_vertically() or self.has_won_diagonally():
@@ -28,6 +39,7 @@ class Board():
                     if (row[i] == row[i + 1] == row[i + 2] == row[i + 3]):           #wenn 4 Elemente in Folge gleich sind
                         print("Wir haben einen horizontalen Sieger!") 
                         print("Winning ELement: ", row[i])
+                        self.display()
                         return True                                                             
                     else:     
                         pass  
@@ -40,7 +52,8 @@ class Board():
                 if row[i] != 0:                                             #schaut, ob Element nicht 0 ist
                     if row[i] == row[i + 1] == row[i + 2] == row[i + 3]:    #schuat, ob 4 Elemente in Folge gleich sind
                         print("Wir haben einen vertikalen Sieger!")
-                        print("Winning ELement: ", row[i])   
+                        print("Winning ELement: ", row[i])  
+                        self.display() 
                         return True                                                                          
                     else:                                                   
                         pass                                      
@@ -70,11 +83,13 @@ class Board():
             if x[0] == x[1] == x[2] == x[3] and x[0] != 0:                    #prüft ersten 4 Elemente beider Hauptdiagonalen und schaut, ob sie gleich sind
                 print("Wir haben einen diagonalen Sieger!")
                 print("Winning ELement: ", x[0])
+                self.display()
                 return True                                   
                 
             elif x[4] == x[3] == x[2] == x[1] and x[4] != 0:                  #prüft, ob die letzten 4 Elemente gleich sind und ob sie nicht 0 sind            
                 print("Wir haben einen diagonalen Sieger!")
                 print("Winning ELement: ", x[4])    
+                self.display()
                 return True                                                         
 
         #für zweite Hauptdiagonale:
@@ -88,6 +103,7 @@ class Board():
             if len(set(element)) == 1 and element != {0}:                    #Gefahr: Menge mit Wert 0: es wurde kein Wert von Spieler eingegeben, trotzdem ist 4 mal 0 in einer Reihe
                 print("Wir haben einen Nebendiagonalen Sieger!")
                 print("Winning ELement: ", element)
+                self.display()
                 return True
 
         return False               #erst hier, damit ganze Funktion durchlaufen wird und nicht bei erstem False abgebrochen wird      
