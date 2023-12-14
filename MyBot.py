@@ -71,7 +71,7 @@ class MyBotReactive(Player):                                                #zwe
 #WORKING
     def make_move(self, board):
         self.check_horizontally(board)
-        self.check_vertically
+        self.check_vertically(board)
         if self.possible_moves == []:
             print("Bot setzt hier: ")
             self.make_random_move(board)
@@ -87,15 +87,15 @@ class MyBotReactive(Player):                                                #zwe
     def check_horizontally(self, board):                     
         for row_index in range(len(board.array)):       #für spätere Indexierung des Arrays für speichern des möglichen Zuges
             row = board.array[row_index]                #zur Verbesserung der übersichtlichkeit
-            for element in range(len(row) - 1):           #nur elemente in der Reihe
-                if row[element] != 0 and row[element] != self.number and element < 4:   #Feld von Gegner belegt und nicht am Rand
+            for element in range(len(row)):           #nur elemente in der Reihe
+                if row[element] != 0 and row[element] != self.number and element < 3:   #Feld von Gegner belegt und nicht am Rand
                     if row[element] == row[element + 1] and row[element + 2] == 0:     #2 Felder in Folge vom Gegner belegt und 3. Feld frei
                         self.possible_moves.append((row_index, element + 2))
                     elif row[element] == row[element + 1] and row[element - 1] == 0:    #2 Felder in Folge vom Gegner belegt und Feld davor frei
                         self.possible_moves.append((row_index, element - 1))
                     else:
                         pass
-                elif row[element] != 0 and row[element] != self.number and element == 4: #Feld von Gegner belegt und am Rand
+                elif row[element] != 0 and row[element] != self.number and element <= 4: #Feld von Gegner belegt und am Rand
                     if row[element] == row[element - 1] and row[element - 2] == 0: 
                         self.possible_moves.append((row_index, element - 2))
                     else:
@@ -105,24 +105,25 @@ class MyBotReactive(Player):                                                #zwe
                 
 
     def check_vertically(self, board):       
-        transposed_board = np.transpose(board.array)         #flippt das board um 90° -> die Spalten werden zu Zeilen              
+        transposed_board = np.rot90(board.array)         #flippt das board um 90° -> die Spalten werden zu Zeilen              
         for row_index in range(len(transposed_board)):       #für spätere Indexierung des Arrays für speichern des möglichen Zuges
             row = transposed_board[row_index]                #zur Verbesserung der übersichtlichkeit
-            for element in range(len(row) - 1):              #nur elemente in der Reihe
-                if row[element] != 0 and row[element] != self.number and element < 4:   #Feld von Gegner belegt und nicht am Rand
-                    if row[element] == row[element + 1] and row[element + 2] == 0:      #2 Felder in Folge vom Gegner belegt und 3. Feld frei
-                        self.possible_moves.append((element + 2, row_index, ))
+            for element in range(len(row)):              #nur elemente in der Reihe
+                if row[element] != 0 and row[element] != self.number and element < 3:   #Feld von Gegner belegt und nicht am Rand
+                    if row[element] == row[element + 1] and row[element + 2] == 0:     #2 Felder in Folge vom Gegner belegt und 3. Feld frei
+                        self.possible_moves.append((element + 2, 4-row_index))
                     elif row[element] == row[element + 1] and row[element - 1] == 0:    #2 Felder in Folge vom Gegner belegt und Feld davor frei
-                        self.possible_moves.append((element - 1, row_index, ))
+                        self.possible_moves.append((element - 1, 4-row_index))
                     else:
                         pass
-                elif row[element] != 0 and row[element] != self.number and element == 4: #Feld von Gegner belegt und am Rand
+                elif row[element] != 0 and row[element] != self.number and element <= 4: #Feld von Gegner belegt und am Rand
                     if row[element] == row[element - 1] and row[element - 2] == 0: 
-                        self.possible_moves.append((element - 2, row_index))
+                        self.possible_moves.append((element - 2, 4-row_index))
                     else:
                         pass
                 else:
                     pass
+                
 
 
 
@@ -148,5 +149,4 @@ class MyBotReactive(Player):                                                #zwe
 #                else: 
 #                    pass                                          
         
-
 
