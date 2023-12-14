@@ -32,48 +32,13 @@ class MyBotReactive(Player):                                                #zwe
         board.set_field_value(y_coordinate, x_coordinate, self.number)
         return board.array
         
-    #def make_move(self, board=Board):                                       #erneut eigene Methode, da Verfahren auch hier wieder anders zu vorherigen
-                                                                             #kein diagonaler Check auf mögliche Spielzüge (es muss ja noch Luft nach oben sein :))
-         #self.check_horizontally(board)                                     #prüft auf spezielle Markierungsmuster auf horizontaler Ebene auf Spielfeld
-      #  #self.check_vertically(board)                                       #prüft auf spezielle Markierungsmuster auf vertikaler Ebene auf Spielfeld
-       # print("Bot setzt hier: ")
-        #if self.possible_moves == []:                                       #sollten keine besorgniserregenden Spielzüge des Gegners, die Eingreifen des Bots bedarfen, vorhanden sein:
-         #   self.make_random_move(board)                                    #dann soll ein zufälliger Zug gespielt werden
-        #else:                                                               #falls es doch eine der in check-Methoden definierten Situationen geben: 
-         #   random_num = randint(0, len(self.possible_moves))               #generiert eine zufällige Zahl zwischen 0 und der Länge der Liste mit sinnvollen Spielzügen
-          #  print(self.possible_moves)
-           # board.set_field_value(self.possible_moves[random_num - 1])     #sucht aus der Liste mit sinnvollen Spielzügen durch zuvorige "Zufalls"-Zahl einen Spielzug aus und führt diesen durch
-           
 
-
-#    def check_horizontally(self, board=Board):
-#        self.possible_moves = []                                                      #um alte Spieloptionen zu löschen
-#        for row in board.array:                                                       #für jede Reihe in board.array
-#            for i in range(len(row) -3):                                              #für jedes Element in der Reihe
-#                if row[i] != 0:                                                       #wenn das Element nicht 0 ist                                         
-#                    if (row[i] == row[i + 1]):                                        #wenn 2 Elemente in Folge gleich sind
-#                        if i + 2 > 4:
-#                            if row[i-1] == 0:
-#                                self.possible_moves.append((row, i-1))
-#                            else:
-#                                pass
-#                        else:
-#                            if row[i + 2] == 0:
-#                                self.possible_moves.append((row, i+2))
-#                            else:
-#                                pass
-#                    else: 
-#                        pass
-#                else: 
-#                    pass
-
-
-#WORKING
     def make_move(self, board):
-        self.check_horizontally(board)
-        self.check_vertically(board)
+        #self.check_horizontally(board)
+        #self.check_vertically(board)
+        self.check_diagonally(board)
         if self.possible_moves == []:
-            print("Bot setzt hier: ")
+            print("Bot setzt random hier: ")
             self.make_random_move(board)
             return board.array
         else: 
@@ -84,6 +49,7 @@ class MyBotReactive(Player):                                                #zwe
             self.possible_moves = []
             return board.array
         
+
     def check_horizontally(self, board):                     
         for row_index in range(len(board.array)):       #für spätere Indexierung des Arrays für speichern des möglichen Zuges
             row = board.array[row_index]                #zur Verbesserung der übersichtlichkeit
@@ -124,29 +90,55 @@ class MyBotReactive(Player):                                                #zwe
                 else:
                     pass
                 
+    def check_diagonally(self, board):
+        diag_1_main = list(board.array.diagonal())                                                #gibt Diagonale von links oben nach rechts unten aus
+        diag_2_above_main = list(board.array.diagonal(offset=1) )                                         #gibt Diagonale da drüber aus
+        diag_3_under_main = list(board.array.diagonal(offset=-1))                                         #gibt Diagonale da drunter aus
+
+        flipped_board = np.fliplr(board.array)                                                    #spiegelt das board vertikal
+
+        diag_flipped_main = list(flipped_board.diagonal())                                              #gibt Diagonale von rechts oben nach links unten aus
+        diag_flipped_above_main = list(flipped_board.diagonal(offset=1))                                 #gibt Diagonale da drüber aus
+        diag_flipped_under_main = list(flipped_board.diagonal(offset=-1))                                #gibt Diagonale da drunter aus
 
 
+        main_diagonals = [diag_1_main, diag_flipped_main]                                                           #liste mit allen Hauptdiagonalen
+        side_diagonals = [diag_2_above_main, diag_3_under_main, diag_flipped_above_main, diag_flipped_under_main]  
 
-#    def check_vertically(self, board=Board):
-#        self.possible_moves = []                                                      #um alte Spieloptionen zu löschen
-#        transposed_board = np.transpose(board.array)                                  #flippt das board um 90° -> die Spalten werden zu Zeilen                             
-#        for row in transposed_board:                                                  #für jede Reihe in board.array
-#            for i in range(len(row) -2):                                              #für jedes Element in der Reihe
-#                if row[i] != 0:                                                       #wenn das Element nicht 0 ist                                         
-#                    if (row[i] == row[i + 1]):                                        #wenn 2 Elemente in Folge gleich sind
-#                        if i+2 > 4:
-#                            if row[i-1] == 0:
-#                                self.possible_moves.append((row, i-1))
-#                            else:
-#                                pass
-#                        else:
-#                            if row[i + 2] == 0:
-#                                self.possible_moves.append((row, i+2))
-#                            else:
-#                                pass
-#                    else: 
-#                        pass
-#                else: 
-#                    pass                                          
-        
+        #Überprüfung der Hauptdiagonalen nach 2 Steinen in Folge:
 
+        for element in range(len(main_diagonals[0])):        #damit nur die Indizes und nicht die tatsächlichen Werte durchgegangen werden
+            if diag_1_main[element] != 0 and diag_1_main[element] != self.number and element < 3:
+                if diag_1_main[element] == diag_1_main[(element+1)] and diag_1_main[(element+2)] == 0:
+                    self.possible_moves.append((element+2, element+2))
+                elif diag_1_main[element] == diag_1_main[element + 1] and diag_1_main[element - 1] == 0: 
+                    self.possible_moves.append((element-1, element-1))
+                else:
+                    pass
+            elif diag_1_main[element] != 0 and diag_1_main[element] != self.number and element <= 4:
+                if diag_1_main[element] == diag_1_main[element - 1] and diag_1_main[element - 2] == 0:
+                    self.possible_moves.append((element-2, element-2))
+                else:
+                    pass
+            else:
+                pass
+
+        for element in range(len(main_diagonals[1])):        #weil Board geflipt wurde muss anders gespeichert werden, deshalb 2. 
+            if diag_flipped_main[element] != 0 and diag_flipped_main[element] != self.number and element < 3:
+                if diag_flipped_main[element] == diag_flipped_main[(element+1)] and diag_flipped_main[(element+2)] == 0:
+                    self.possible_moves.append((element+2, 4-element+2))
+                elif diag_flipped_main[element] == diag_flipped_main[element + 1] and diag_flipped_main[element - 1] == 0: 
+                    self.possible_moves.append((element-1, 4-element-1))
+                else:
+                    pass
+            elif diag_flipped_main[element] != 0 and diag_flipped_main[element] != self.number and element <= 4:
+                if diag_flipped_main[element] == diag_flipped_main[element - 1] and diag_flipped_main[element - 2] == 0:
+                    self.possible_moves.append((element-2, ((4-element-2)%4)))
+                else:
+                    pass
+            else:
+                pass
+
+            
+            
+            
