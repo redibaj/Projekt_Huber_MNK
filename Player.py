@@ -12,7 +12,7 @@ class Player():
         x_coordinate = (int(coordinates_list[0]) - 1)                        #Eingabe Indexierung anders als Rechner -> erstes Feld unten links für User Feld (1,1) statt (0,0)
         y_coordinate = 5 - int(coordinates_list[1])                          #auch wegen anderer Indexierung des Users. Damit unterste Reihe im Array für Usereingabe die erste Reihe ist
            
-<<<<<< emil
+
         if x_coordinate >= 5 or y_coordinate >= 5:                           #wenn Koordinaten außerhalb des Spielfelds (rechts oder oben) liegen:
             print("Ungültige Eingabe")                                       #signalisiert eine ungültige Eingabe
             return self.make_move(board=board)                               #ruft Funktion nochmals auf, um erneute Eingabe zu ermöglichen. Return hat David hingepackt um alte Funktion zu schließen
