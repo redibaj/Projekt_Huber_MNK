@@ -34,9 +34,9 @@ class MyBotReactive(Player):                                                #zwe
         
 
     def make_move(self, board):
-        #self.check_horizontally(board)
+        self.check_horizontally(board)
         #self.check_vertically(board)
-        self.check_diagonally(board)
+        #self.check_diagonally(board)
         if self.possible_moves == []:
             print("Bot setzt random hier: ")
             self.make_random_move(board)
