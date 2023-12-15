@@ -35,8 +35,8 @@ class MyBotReactive(Player):                                                #zwe
 
     def make_move(self, board):
         self.check_horizontally(board)
-        #self.check_vertically(board)
-        #self.check_diagonally(board)
+        self.check_vertically(board)
+        self.check_diagonally(board)
         if self.possible_moves == []:
             print("Bot setzt random hier: ")
             self.make_random_move(board)
@@ -108,14 +108,14 @@ class MyBotReactive(Player):                                                #zwe
         #Überprüfung der Hauptdiagonalen nach 2 Steinen in Folge:
 
         for element in range(len(main_diagonals[0])):        #damit nur die Indizes und nicht die tatsächlichen Werte durchgegangen werden
-            if diag_1_main[element] != 0 and diag_1_main[element] != self.number and element < 3:
+            if diag_1_main[element] != 0 and''' diag_1_main[element] != self.number''' and element < 3:
                 if diag_1_main[element] == diag_1_main[(element+1)] and diag_1_main[(element+2)] == 0:
                     self.possible_moves.append((element+2, element+2))
                 elif diag_1_main[element] == diag_1_main[element + 1] and diag_1_main[element - 1] == 0: 
                     self.possible_moves.append((element-1, element-1))
                 else:
                     pass
-            elif diag_1_main[element] != 0 and diag_1_main[element] != self.number and element <= 4:
+            elif diag_1_main[element] != 0 and '''diag_1_main[element] != self.number''' and element <= 4:
                 if diag_1_main[element] == diag_1_main[element - 1] and diag_1_main[element - 2] == 0:
                     self.possible_moves.append((element-2, element-2))
                 else:
@@ -124,14 +124,14 @@ class MyBotReactive(Player):                                                #zwe
                 pass
 
         for element in range(len(main_diagonals[1])):        #weil Board geflipt wurde muss anders gespeichert werden, deshalb 2. 
-            if diag_flipped_main[element] != 0 and diag_flipped_main[element] != self.number and element < 3:
+            if diag_flipped_main[element] != 0 and""" diag_flipped_main[element] != self.number""" and element < 3:
                 if diag_flipped_main[element] == diag_flipped_main[(element+1)] and diag_flipped_main[(element+2)] == 0:
                     self.possible_moves.append((element+2, (4-element+2)%4))
                 elif diag_flipped_main[element] == diag_flipped_main[element + 1] and diag_flipped_main[element - 1] == 0: 
-                    self.possible_moves.append((element-1, 4-element-1))
+                    self.possible_moves.append((element-1, 4-(element-1)))
                 else:
                     pass
-            elif diag_flipped_main[element] != 0 and diag_flipped_main[element] != self.number and element <= 4:
+            elif diag_flipped_main[element] != 0 and ''' diag_flipped_main[element] != self.number''' and element <= 4:
                 if diag_flipped_main[element] == diag_flipped_main[element - 1] and diag_flipped_main[element - 2] == 0:
                     self.possible_moves.append((element-2, ((4-element-2)%4)))
                 else:
@@ -143,7 +143,7 @@ class MyBotReactive(Player):                                                #zwe
         #für jede einzeln, wegen Unterschieden in Indexierung. Darum keine for-Schleife, die über Liste mit Nebendiagonalen iteriert   
         # fertig
         for element in range(len(diag_2_above_main)):
-            if diag_2_above_main[element] != 0 and diag_2_above_main[element] != self.number:
+            if diag_2_above_main[element] != 0 and''' diag_2_above_main[element] != self.number''':
                 if element < 2:
                     if 2 not in diag_3_under_main:
                         if diag_2_above_main[element] == diag_2_above_main[element+1] and diag_2_above_main[element+2] == 0:
@@ -156,7 +156,7 @@ class MyBotReactive(Player):                                                #zwe
                 pass
         #fertig
         for element in range(len(diag_3_under_main)):
-            if diag_3_under_main[element] != 0 and diag_3_under_main[element] != self.number:
+            if diag_3_under_main[element] != 0 and'''diag_3_under_main[element] != self.number''':
                 if element < 2:
                     if 2 not in diag_3_under_main:
                         if diag_3_under_main[element] == diag_3_under_main[element+1] and diag_3_under_main[element+2] == 0:
@@ -170,7 +170,7 @@ class MyBotReactive(Player):                                                #zwe
                 pass
         
         for element in range(len(diag_flipped_above_main)):
-            if diag_flipped_above_main[element] != 0 and diag_flipped_above_main[element] != self.number:
+            if diag_flipped_above_main[element] != 0 and'''diag_flipped_above_main[element] != self.number''':
                 if element < 2:
                     if 2 not in diag_flipped_above_main:
                         if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] and diag_flipped_above_main[element+2] == 0:
@@ -184,7 +184,7 @@ class MyBotReactive(Player):                                                #zwe
         
         #indexierung fehlt
         for element in range(len(diag_flipped_under_main)):
-            if diag_flipped_under_main[element] != 0 and diag_flipped_under_main[element] != self.number:
+            if diag_flipped_under_main[element] != 0 and ''' diag_flipped_under_main[element] != self.number''':
                 if element < 2:
                     if 2 not in diag_flipped_under_main:
                         if diag_flipped_under_main[element] == diag_flipped_under_main[element+1] and diag_flipped_under_main[element+2] == 0:
