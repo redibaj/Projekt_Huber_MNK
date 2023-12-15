@@ -141,36 +141,44 @@ class MyBotReactive(Player):                                                #zwe
 
         #Überprüfung der Nebendiagonalen nach 2 Steinen in Folge:    
         #für jede einzeln, wegen Unterschieden in Indexierung. Darum keine for-Schleife, die über Liste mit Nebendiagonalen iteriert   
+        # fertig
         for element in range(len(diag_2_above_main)):
             if diag_2_above_main[element] != 0 and diag_2_above_main[element] != self.number:
                 if element < 2:
-                    if diag_2_above_main[element] == diag_2_above_main[element+1] and diag_2_above_main[element+2] == 0:
-                        self.possible_moves.append((element+2, 1+element+2))
+                    if 2 not in diag_3_under_main:
+                        if diag_2_above_main[element] == diag_2_above_main[element+1] and diag_2_above_main[element+2] == 0:
+                            self.possible_moves.append((element+2, 1+element+2))
                 elif element == 2: 
-                    if diag_2_above_main[element] == diag_2_above_main[element+1] and diag_2_above_main[element-1] == 0:
-                        self.possible_moves.append((element-1, (1+element-1)))
+                    if 2 not in diag_3_under_main:
+                        if diag_2_above_main[element] == diag_2_above_main[element+1] and diag_2_above_main[element-1] == 0:
+                            self.possible_moves.append((element-1, (1+element-1)))
             else:
                 pass
-
+        #fertig
         for element in range(len(diag_3_under_main)):
             if diag_3_under_main[element] != 0 and diag_3_under_main[element] != self.number:
                 if element < 2:
-                    if diag_3_under_main[element] == diag_3_under_main[element+1] and diag_3_under_main[element+2] == 0:
-                        self.possible_moves.append((1+element+2, element+2))
+                    if 2 not in diag_3_under_main:
+                        if diag_3_under_main[element] == diag_3_under_main[element+1] and diag_3_under_main[element+2] == 0:
+                            self.possible_moves.append((1+element+2, element+2))
                 elif element == 2: 
-                    if diag_3_under_main[element] == diag_3_under_main[element+1] and diag_3_under_main[element-1] == 0:
-                        self.possible_moves.append((1+element-1, element-1))
+                    if 2 not in diag_3_under_main:
+                        if diag_3_under_main[element] == diag_3_under_main[element+1] and diag_3_under_main[element-1] == 0:
+                            self.possible_moves.append((1+element-1, element-1))
+                    
             else:
                 pass
         
         for element in range(len(diag_flipped_above_main)):
             if diag_flipped_above_main[element] != 0 and diag_flipped_above_main[element] != self.number:
                 if element < 2:
-                    if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] and diag_flipped_above_main[element+2] == 0:
-                        self.possible_moves.append((element+2, '''nicht allgemein findbar (bis jz)'''))
+                    if 2 not in diag_flipped_above_main:
+                        if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] and diag_flipped_above_main[element+2] == 0:
+                            self.possible_moves.append((element+2, 3 - (element+2)))
                 elif element == 2: 
-                    if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] and diag_flipped_above_main[element-1] == 0:
-                        self.possible_moves.append((element-1, 2))
+                    if 2 not in diag_flipped_above_main:
+                        if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] and diag_flipped_above_main[element-1] == 0:
+                            self.possible_moves.append((element-1, 2))
             else:
                 pass
         
@@ -178,11 +186,13 @@ class MyBotReactive(Player):                                                #zwe
         for element in range(len(diag_flipped_under_main)):
             if diag_flipped_under_main[element] != 0 and diag_flipped_under_main[element] != self.number:
                 if element < 2:
-                    if diag_flipped_under_main[element] == diag_flipped_under_main[element+1] and diag_flipped_under_main[element+2] == 0:
-                        self.possible_moves.append()
-                elif element == 2: 
-                    if diag_flipped_under_main[element] == diag_flipped_under_main[element+1] and diag_flipped_under_main[element-1] == 0:
-                        self.possible_moves.append()
+                    if 2 not in diag_flipped_under_main:
+                        if diag_flipped_under_main[element] == diag_flipped_under_main[element+1] and diag_flipped_under_main[element+2] == 0:
+                            self.possible_moves.append((1+element+2, 4-(element+2)))
+                elif element == 2:
+                    if 2 not in diag_flipped_under_main: 
+                        if diag_flipped_under_main[element] == diag_flipped_under_main[element+1] and diag_flipped_under_main[element-1] == 0:
+                            self.possible_moves.append((2,3))
             else:
                 pass
         
