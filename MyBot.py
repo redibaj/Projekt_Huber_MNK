@@ -20,7 +20,9 @@ class MyBotRandom(Player):          #erster Bot, der zufälligen Spielzug spielt
 class MyBotReactive(Player):                                                #zweiter Bot, der reaktiv spielt
     def __init__(self, number):                                         
         self.number = number                                                #Spielstein, mit dem der Bot seine Markierungen auf Spielfeld Board setzt
-        self.possible_moves = []                                            #Liste, die alle sinnvollen Spielzüge (also Markierungen auf Borad) speichert und aus der später ein Zug ausgeführt werden soll
+        self.possible_moves = []
+        self.gefilterte_liste = []
+                                       #Liste, die alle sinnvollen Spielzüge (also Markierungen auf Borad) speichert und aus der später ein Zug ausgeführt werden soll
     
     def make_random_move(self, board):                                      #Methode aus MyBotRandom, ermöglicht zufälligen Spielzug des Bots
         x_coordinate = randint(0,4)
@@ -37,16 +39,24 @@ class MyBotReactive(Player):                                                #zwe
         self.check_horizontally(board)
         self.check_vertically(board)
         self.check_diagonally(board)
+        self.gefilterte_liste = [tupel for tupel in self.possible_moves if 0 not in tupel and 4 not in tupel]
         if self.possible_moves == []:
             print("Bot setzt random hier: ")
             self.make_random_move(board)
             return board.array
-        else: 
+        elif self.gefilterte_liste == []: 
             random_number = randint(0, len(self.possible_moves) - 1)
-            print(f"mögliche Züge in Array-Index-Form: {self.possible_moves}")
+            print(f"mögliche Züge in Array-Index-Form in possible_moves: {self.possible_moves}")
             print("Bot setzt hier: ")
             board.set_field_value(self.possible_moves[random_number][0], self.possible_moves[random_number][1], self.number)
             self.possible_moves = []
+            return board.array
+        else:
+            random_number = randint(0, len(self.gefilterte_liste) - 1)
+            print(f"mögliche Züge in Array-Index-Form in gefilterte_liste: {self.gefilterte_liste}")
+            print("Bot setzt hier: ")
+            board.set_field_value(self.gefilterte_liste[random_number][0], self.gefilterte_liste[random_number][1], self.number)
+            self.gefilterte_liste = []
             return board.array
         
 
