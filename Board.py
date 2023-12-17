@@ -5,7 +5,7 @@ class Board():
         self.n = n
         self.k = k
         self.array = np.zeros((self.m, self.n))
-    
+
     def display(self):                   #zeigt das Spielfeld an
         print(self.array)
     
@@ -38,7 +38,11 @@ class Board():
                 if row[i] != 0:                                                      #wenn das Element nicht 0 ist                                         
                     if (row[i] == row[i + 1] == row[i + 2] == row[i + 3]):           #wenn 4 Elemente in Folge gleich sind
                         print("Wir haben einen horizontalen Sieger!") 
-                        print("Winning ELement: ", row[i])
+                        # if row[i] == 1:
+                        #     print(f"Sieger: {Game.player1}")
+                        # elif row[i] == 2:
+                        #     print(f"Sieger: {Game.player2}")
+                        print("Winning ELement: ", int(row[i]))
                         self.display()
                         return True                                                             
                     else:     
@@ -52,7 +56,11 @@ class Board():
                 if row[i] != 0:                                             #schaut, ob Element nicht 0 ist
                     if row[i] == row[i + 1] == row[i + 2] == row[i + 3]:    #schuat, ob 4 Elemente in Folge gleich sind
                         print("Wir haben einen vertikalen Sieger!")
-                        print("Winning ELement: ", row[i])  
+                        # if row[i] == 1:
+                        #     print(f"Sieger: {Game.player1}")
+                        # elif row[i] == 2:
+                        #     print(f"Sieger: {Game.player2}")
+                        print("Winning ELement: ", int(row[i]))
                         self.display() 
                         return True                                                                          
                     else:                                                   
@@ -82,13 +90,21 @@ class Board():
         for x in main_diagonals:
             if x[0] == x[1] == x[2] == x[3] and x[0] != 0:                    #prüft ersten 4 Elemente beider Hauptdiagonalen und schaut, ob sie gleich sind
                 print("Wir haben einen diagonalen Sieger!")
-                print("Winning ELement: ", x[0])
+                # if x[0] == 1:
+                #     print(f"Sieger: {Game.player1}")
+                # elif x[0] == 2:
+                #     print(f"Sieger: {Game.player2}")
+                print("Winning ELement: ", int(x[0]))
                 self.display()
                 return True                                   
                 
             elif x[4] == x[3] == x[2] == x[1] and x[4] != 0:                  #prüft, ob die letzten 4 Elemente gleich sind und ob sie nicht 0 sind            
                 print("Wir haben einen diagonalen Sieger!")
-                print("Winning ELement: ", x[4])    
+                # if x[4] == 1:
+                #     print(f"Sieger: {Game.player1}")
+                # elif x[4] == 2:
+                #     print(f"Sieger: {Game.player2}")
+                print("Winning ELement: ", int(x[4]))    
                 self.display()
                 return True                                                         
 
@@ -102,7 +118,11 @@ class Board():
         for element in side_diagonals:                                  #für jedes Element in der Liste der Nebendiagonalen 
             if len(set(element)) == 1 and element != {0}:                    #Gefahr: Menge mit Wert 0: es wurde kein Wert von Spieler eingegeben, trotzdem ist 4 mal 0 in einer Reihe
                 print("Wir haben einen Nebendiagonalen Sieger!")
-                print("Winning ELement: ", element)
+                # if element == {1}:
+                #     print(f"Sieger: {Game.player1}")
+                # elif element == {2}:
+                #     print(f"Sieger: {Game.player2}")
+                print("Winning Element: ", int(element))
                 self.display()
                 return True
 
