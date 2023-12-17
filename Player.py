@@ -14,18 +14,19 @@ class Player():
            
 
         if x_coordinate >= 5 or y_coordinate >= 5:                           #wenn Koordinaten außerhalb des Spielfelds (rechts oder oben) liegen:
-            print("Ungültige Eingabe")                                       #signalisiert eine ungültige Eingabe
+            print("Ungültige Eingabe! *Keine Werte größer 5*")                                       #signalisiert eine ungültige Eingabe
             return self.make_move(board=board)                               #ruft Funktion nochmals auf, um erneute Eingabe zu ermöglichen. Return hat David hingepackt um alte Funktion zu schließen
             
         elif x_coordinate < 0 or y_coordinate < 0:                           #wenn Koordinaten unter oder links vom Feld liegen
-            print("Ungültige Eingabe")                                       #signalisiert eine ungültige Eingabe
+            print("Ungültige Eingabe! *Keine Werte kleiner Null*")                                       #signalisiert eine ungültige Eingabe
             return self.make_move(board=board)                               #ruft Funktion nochmals auf, um erneute Eingabe zu ermöglichen. Return hat David hingepackt um alte Funktion zu schließen
             
         elif board.return_field_value(y_coordinate, x_coordinate) != 0:      #wenn ausgewähltes Feld schon belegt:
+            print("Feld ist bereits belegt. Lege woanders")                  #kommuniziert dem User, dass das Feld bereits belegt ist 
             return self.make_move(board=board)                               #ruft Funktion nochmals auf, um erneute Eingabe zu ermöglichen. Return hat David hingepackt um alte Funktion zu schließen
-            print("Feld ist bereits belegt. Lege woanders")                  #kommuniziert dem User, dass das Feld bereits belegt ist            
-      
+                                     
         else:                                                                #wenn Feld frei ist:
+            print()
             return board.set_field_value(y_coordinate, x_coordinate, self.number)   #definiert in Board Klasse, lässt Spieler an gewünschter Stelle mit seinem Zeichen (Zahl) setzen
-
+        
         #return board.array                                                   #gibt Spielfeld zurück, damit es in Game Klasse verwendet werden kann
