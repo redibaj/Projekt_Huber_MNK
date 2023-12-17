@@ -168,6 +168,8 @@ class MyBotReactive(Player):                                                #zwe
                     self.possible_moves.append((element+2, element+2))
                 elif diag_1_main[element] == diag_1_main[element + 1] and diag_1_main[element - 1] == 0: 
                     self.possible_moves.append((element-1, element-1))
+                elif diag_1_main[element] == diag_1_main[element + 2] and diag_1_main[element+1] == 0:
+                    self.possible_moves.append((element+1, element+1))
                 else:
                     pass
             elif diag_1_main[element] != 0 and '''diag_1_main[element] != self.number''' and element <= 4:
@@ -193,6 +195,8 @@ class MyBotReactive(Player):                                                #zwe
                     self.possible_moves.append((element+2, (4-element+2)%4))
                 elif diag_flipped_main[element] == diag_flipped_main[element + 1] and diag_flipped_main[element - 1] == 0: 
                     self.possible_moves.append((element-1, 4-(element-1)))
+                elif diag_flipped_main[element] == diag_flipped_main[element+2] and diag_flipped_main[element+1] == 0:
+                    self.possible_moves.append((element+1, 4-(element+1)))
                 else:
                     pass
             elif diag_flipped_main[element] != 0 and ''' diag_flipped_main[element] != self.number''' and element <= 4:
