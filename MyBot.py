@@ -31,8 +31,9 @@ class MyBotReactive(Player):                                                #zwe
         while board.array[y_coordinate][x_coordinate] != 0:
             x_coordinate = randint(0,4)
             y_coordinate = randint(0,4)
-
+        print(f"Bot setzt random hier: {x_coordinate + 1, 5 - y_coordinate}")
         board.set_field_value(y_coordinate, x_coordinate, self.number)
+        print()
         return board.array
         
 
@@ -42,7 +43,6 @@ class MyBotReactive(Player):                                                #zwe
         self.check_diagonally(board)
         self.gefilterte_liste = [tupel for tupel in self.possible_moves if 0 not in tupel and 4 not in tupel]
         if self.possible_moves == [] and self.important_moves == []:
-            print("Bot setzt random hier: ")
             self.make_random_move(board)
             return board.array
         elif self.gefilterte_liste == [] and self.important_moves == []: 
@@ -50,6 +50,7 @@ class MyBotReactive(Player):                                                #zwe
             print(f"mögliche Züge in Array-Index-Form in possible_moves: {self.possible_moves}")
             print("Bot setzt hier: ")
             board.set_field_value(self.possible_moves[random_number][0], self.possible_moves[random_number][1], self.number)
+            print()
             self.possible_moves = []
             return board.array
         elif self.important_moves==[]:
@@ -57,6 +58,7 @@ class MyBotReactive(Player):                                                #zwe
             print(f"mögliche Züge in Array-Index-Form in gefilterte_liste: {self.gefilterte_liste}")
             print("Bot setzt hier: ")
             board.set_field_value(self.gefilterte_liste[random_number][0], self.gefilterte_liste[random_number][1], self.number)
+            print()
             self.possible_moves = []
             self.gefilterte_liste = []
             return board.array
@@ -65,6 +67,7 @@ class MyBotReactive(Player):                                                #zwe
             print(f"mögliche Züge in Array-Index-Form in important_moves: {self.important_moves}")
             print("Bot setzt hier: ")
             board.set_field_value(self.important_moves[random_number][0], self.important_moves[random_number][1], self.number)
+            print()
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []
@@ -89,6 +92,8 @@ class MyBotReactive(Player):                                                #zwe
                         self.possible_moves.append((row_index, element + 2))
                     elif row[element] == row[element + 1] and row[element - 1] == 0:    #2 Felder in Folge vom Gegner belegt und Feld davor frei
                         self.possible_moves.append((row_index, element - 1))
+                    elif row[element] == row[element + 2] and row[element + 1] == 0:
+                        self.possible_moves.append((row_index, element+1))
                     else:
                         pass
                 elif row[element] != 0 and '''row[element] != self.number''' and element <= 4: #Feld von Gegner belegt und am Rand
@@ -119,6 +124,8 @@ class MyBotReactive(Player):                                                #zwe
                         self.possible_moves.append((element + 2, 4-row_index))
                     elif row[element] == row[element + 1] and row[element - 1] == 0:    #2 Felder in Folge vom Gegner belegt und Feld davor frei
                         self.possible_moves.append((element - 1, 4-row_index))
+                    elif row[element] == row[element + 2] and row[element + 1] == 0:
+                        self.possible_moves.append((element+1, 4-row_index))
                     else:
                         pass
                 elif row[element] != 0 and '''row[element] != self.number''' and element <= 4: #Feld von Gegner belegt und am Rand
