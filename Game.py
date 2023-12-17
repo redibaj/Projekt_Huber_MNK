@@ -25,10 +25,13 @@ class Game:
             if bot_level == "1": 
                 self.player1 = Player(name=input("Name Spieler 1: "), number=1)                                                                   #wenn einfacher Bot (Level 1)
                 self.player2 = MyBotRandom(number=2)                                                #zweiter Spieler wird durch Bot Level 1 ersetzt, dieser bekommt Spielernummer/-markierung 2
+                print()
                 self.game_loop()                                                                    #game-loop wird gestartet
             elif bot_level == "2":      
                 self.player1 = Player(name=input("Name Spieler 1: "), number=1)                                                                   #wenn schwierigerer Bot (Level 2)
                 self.player2 = MyBotReactive(number=2)                                              #Spieler 2 wird durch Bot Level 2 mit Spielernummer/-markierung 2 ersetzt
+                print()
+                print("Einleitung\nDas Spielfeld besteht aus 5x5 Feldern.\nEin leeres Feld wird durch eine 0 gekennzeichnet, ein belegtes Feld durch eine 1 oder 2.\nSpielt ihr zu zweit, so belegt Spieler 1 das Feld mit einer 1 und Spieler 2 mit einer 2.\nSpielst du alleine, so legst du automatisch die 1 und der Computer die 2.\nDu kannst Werte zwischen 1 und 5 angeben.\nDer erste Wert beschreibt die Horizontale, der zweite die Vertikale\nDie Werte dürfen nicht in einer Klammer stehen!\n")
                 self.game_loop()                                                                    #game-loop wird gestartet
         
 
@@ -38,6 +41,7 @@ class Game:
         full_board = False                                    #es wird gespeichert, dass das Board zu Beginn noch nicht voll ist
         while winner == False and full_board == False:        #solange es keinen Gewinner gibt und das Spielfeld nicht voll ist soll gespielt werden
             self.board.display()                              #Spielfeld wird für Spieler sichtbar
+            print()
             self.player1.make_move(board=self.board)          #Spieler 1 macht einen Zug
             winner = self.board.has_won()                     #es wird mit Methode aus Board-Klasse überprüft, ob es einen Gewinner gibt (falls ja, würde hier True zurückgegeben werden)
             if winner == True:                                #sollte es einen Gewinner geben:
@@ -47,6 +51,7 @@ class Game:
                 print("Unentschieden!")                       #signalisiert das dadurch entstandene Unentschieden
                 break                                         #Spiel wird beendet
             self.board.display()                              #falls keine der beiden zuvorigen Bedingungen erfüllt ist, wird hier weitergemacht und das aktualisiert Spielfeld angezeigt, damit der nächste Spiele eine faire Chance auf einen guten Zug hat
+            print()
             full_board = self.board.board_full()              #schaut, ob das Spielfeld voll ist und speichert aktualisierten Boolean-Return-Wert in Variable full_board
             self.player2.make_move(board=self.board)          #zweiter Spieler setzt
             winner = self.board.has_won()                     #es wird mit Methode aus Board-Klasse überprüft, ob es einen Gewinner gibt (falls ja, würde hier True zurückgegeben und gespeichert werden)
@@ -54,7 +59,6 @@ class Game:
                 self.board.display()                          #zeigt ein letztes Mal das Spielfeld an
                 break                                         #beendet Spiel an dieser Stelle
             if full_board == True:                            #sollte das Spielfeld keine freien Stellen mehr haben und dadurch kein Zug mehr möglich sein: 
-                self.board.display()                          #zeigt das Finale SPielbrett an
                 print("Unentschieden!")                       #signalisiert das dadurch entstandene Unentschieden
                 break                                         #beendet das Spiel
         print("Spiel vorbei")                                 #sobald Bedingungen der While-Schleife nicht mehr erfüllt sind, geht es hier weiter. Letzte Aktion ist diese Print-Ausgabe
