@@ -9,14 +9,28 @@ class Player():
         coordinates_input = (input(f"{self.name}, gib deine Koordinaten ein (Form: x,y): "))
         coordinates_list = coordinates_input.split(",")                      #1. Wert = gewünschtes x, 2. Wert = gewünschtes y
 
+
+        if len(coordinates_input)<3:
+            print(f"{self.name}, gib 2 Werte ein!")
+            return self.make_move(board=board)
+        elif len(coordinates_input)<3:
+            print(f"{self.name}, gib 2 Werte zwischen 1 und 5 an!")
+            return self.make_move(board=board)
+        elif "," not in coordinates_input:
+            print(f"{self.name}, gib 2 Werte ein!")
+            return self.make_move(board=board)
+        elif "(" or ")" in coordinates_input:
+            print(f"{self.name}, benutze keine Klammern bei der Eingabe") 
+            return self.make_move(board=board)
+        
         x_coordinate = (int(coordinates_list[0]) - 1)                        #Eingabe Indexierung anders als Rechner -> erstes Feld unten links für User Feld (1,1) statt (0,0)
         y_coordinate = 5 - int(coordinates_list[1])                          #auch wegen anderer Indexierung des Users. Damit unterste Reihe im Array für Usereingabe die erste Reihe ist
-           
 
         if x_coordinate >= 5 or y_coordinate >= 5:                           #wenn Koordinaten außerhalb des Spielfelds (rechts oder oben) liegen:
             print("Ungültige Eingabe! *Keine Werte größer 5*")                                       #signalisiert eine ungültige Eingabe
             return self.make_move(board=board)                               #ruft Funktion nochmals auf, um erneute Eingabe zu ermöglichen. Return hat David hingepackt um alte Funktion zu schließen
-            
+           
+
         elif x_coordinate < 0 or y_coordinate < 0:                           #wenn Koordinaten unter oder links vom Feld liegen
             print("Ungültige Eingabe! *Keine Werte kleiner Null*")                                       #signalisiert eine ungültige Eingabe
             return self.make_move(board=board)                               #ruft Funktion nochmals auf, um erneute Eingabe zu ermöglichen. Return hat David hingepackt um alte Funktion zu schließen
@@ -29,4 +43,3 @@ class Player():
             print()
             return board.set_field_value(y_coordinate, x_coordinate, self.number)   #definiert in Board Klasse, lässt Spieler an gewünschter Stelle mit seinem Zeichen (Zahl) setzen
         
-        #return board.array                                                   #gibt Spielfeld zurück, damit es in Game Klasse verwendet werden kann
