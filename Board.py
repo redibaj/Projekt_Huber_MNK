@@ -5,6 +5,7 @@ class Board():
         self.n = n
         self.k = k
         self.array = np.zeros((self.m, self.n))
+        self.winner = None
 
     def display(self):                   #zeigt das Spielfeld an
         print(self.array)
@@ -21,10 +22,10 @@ class Board():
             for element in row:
                 if element != 0:
                     zero_counter -= 1
-        while zero_counter != 0:
-            return False
         if zero_counter == 0:
             return True
+        else: 
+            return False
 
     def has_won(self):                            #um alle Gewinnmöglichkeiten zu prüfen
         if self.has_won_horizontally() or self.has_won_vertically() or self.has_won_diagonally():
@@ -43,6 +44,7 @@ class Board():
                         # elif row[i] == 2:
                         #     print(f"Sieger: {Game.player2}")
                         print("Winning ELement: ", int(row[i]))
+                        self.winner = int(row[i])
                         self.display()
                         return True                                                             
                     else:     
@@ -62,6 +64,7 @@ class Board():
                         #     print(f"Sieger: {Game.player2}")
                         print("Winning ELement: ", int(row[i]))
                         self.display() 
+                        self.winner = int(row[i])
                         return True                                                                          
                     else:                                                   
                         pass                                      
@@ -96,6 +99,7 @@ class Board():
                 #     print(f"Sieger: {Game.player2}")
                 print("Winning ELement: ", int(x[0]))
                 self.display()
+                self.winner = int(x[0])
                 return True                                   
                 
             elif x[4] == x[3] == x[2] == x[1] and x[4] != 0:                  #prüft, ob die letzten 4 Elemente gleich sind und ob sie nicht 0 sind            
@@ -106,6 +110,7 @@ class Board():
                 #     print(f"Sieger: {Game.player2}")
                 print("Winning ELement: ", int(x[4]))    
                 self.display()
+                self.winner = int(x[4])
                 return True                                                         
 
         #für zweite Hauptdiagonale:
@@ -122,8 +127,9 @@ class Board():
                 #     print(f"Sieger: {Game.player1}")
                 # elif element == {2}:
                 #     print(f"Sieger: {Game.player2}")
-                print("Winning Element: ", int(element))
+                print("Winning Element: ", set(element))
                 self.display()
+                self.winner = set(element)
                 return True
 
         return False               #erst hier, damit ganze Funktion durchlaufen wird und nicht bei erstem False abgebrochen wird      
