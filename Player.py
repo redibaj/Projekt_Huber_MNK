@@ -6,7 +6,7 @@ class Player():
 
         
     def make_move(self, board):
-        coordinates_input = (input(f"{self.name}, gib deine Koordinaten ein (Form: x,y): "))
+        coordinates_input = input(f"{self.name}, gib deine Koordinaten ein (Form: x,y): ")
         coordinates_list = coordinates_input.split(",")                      #1. Wert = gewünschtes x, 2. Wert = gewünschtes y
 
 
@@ -18,9 +18,6 @@ class Player():
             return self.make_move(board=board)
         elif "," not in coordinates_input:
             print(f"{self.name}, gib 2 Werte ein!")
-            return self.make_move(board=board)
-        elif "(" or ")" in coordinates_input:
-            print(f"{self.name}, benutze keine Klammern bei der Eingabe") 
             return self.make_move(board=board)
         
         x_coordinate = (int(coordinates_list[0]) - 1)                        #Eingabe Indexierung anders als Rechner -> erstes Feld unten links für User Feld (1,1) statt (0,0)
