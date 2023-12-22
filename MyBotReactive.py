@@ -3,19 +3,6 @@ from Board import Board
 import numpy as np
 from random import randint
 
-class MyBotRandom(Player):          #erster Bot, der zufälligen Spielzug spielt
-    def __init__(self, number):
-        self.number = number        #1 oder 2, wird bei make_move() als Setzstein übergeben, Spieler markiert mit seiner Nummer auf dem Feld
-
-    def make_move(self, board = Board):                                     #lässt Bot spielen, benötigt allerdings eigene make_move Methode, da Verfahren anders
-        x_coordinate = randint(0,4)                                         #generiert eine beliebige x-Koordinate, die auf dem Spielfeld liegen kann
-        y_coordinate = randint(0,4)                                         #generiert eine beliebige y-Koordinate, die auf dem SPielfeld liegen kann
-        while board.array[y_coordinate][x_coordinate] != 0:                 #sollte das Feld auf dem Spielfeld schon belegt (!= 0) sein:
-            x_coordinate = randint(0,4)                                     #andere zufällige x-Koordinate wird generiert
-            y_coordinate = randint(0,4)                                     #andere zufällige y-Koordinate wird generiert
-
-        board.set_field_value(y_coordinate, x_coordinate, self.number)      #methode def. in Board-Klasse, markiert Spielzug auf dem Spielbrett
-        return board.array                                                  #gibt das aktualisierte Spielbrett zurück
 
 class MyBotReactive(Player):                                                #zweiter Bot, der reaktiv spielt
     def __init__(self, number):                                         
@@ -27,15 +14,27 @@ class MyBotReactive(Player):                                                #zwe
                                        #Liste, die alle sinnvollen Spielzüge (also Markierungen auf Borad) speichert und aus der später ein Zug ausgeführt werden soll
     
     def make_random_move(self, board):                                      #Methode aus MyBotRandom, ermöglicht zufälligen Spielzug des Bots
-        x_coordinate = randint(0,4)
-        y_coordinate = randint(0,4)
-        while board.array[y_coordinate][x_coordinate] != 0:
-            x_coordinate = randint(0,4)
-            y_coordinate = randint(0,4)
+        if board.array[2][2] == 0:
+            y_coordinate = 2
+            x_coordinate = 2   
+        else:                     
+            all_possible_moves = list(np.argwhere(board.array == 0))         # gibt eine Liste von Tupeln zurück, die alle freien Felder (0) besitzen
+            for tupel in all_possible_moves:  
+                if 0 not in tupel and 4 not in tupel:
+                    y_coordinate = tupel[0]
+                    x_coordinate = tupel[1]
+                    break
+                else:
+                    y_coordinate = tupel[0]
+                    x_coordinate = tupel[1]
+                                                                                             #andere zufällige y-Koordinate wird generiert
         print(f"Bot setzt random hier: {x_coordinate + 1, 5 - y_coordinate}")
-        board.set_field_value(y_coordinate, x_coordinate, self.number)
-        print()
-        return board.array
+        board.set_field_value(y_coordinate, x_coordinate, self.number)                       #methode def. in Board-Klasse, markiert Spielzug auf dem Spielbrett
+        return board.array                                                                          #gibt das aktualisierte Spielbrett zurück
+    
+    
+        
+        
     
     # def make_move(self, board):
     #     self.check_horizontally(board)
@@ -125,7 +124,7 @@ class MyBotReactive(Player):                                                #zwe
                     if row[element] == row[element+1] == row[element+2] == self.number and row[element+3] == 0:
                         self.winning_moves.append((row_index, element+3, "h"))
 
-                elif element == 2:
+                if element == 2 or element == 1:
                     if row[element] == row[element+1] == row[element+2] == self.number and row[element-1] == 0:
                         self.winning_moves.append((row_index, element-1, "h"))
 
@@ -169,7 +168,7 @@ class MyBotReactive(Player):                                                #zwe
                     if row[element] == row[element+1] == row[element+2] == self.number and row[element+3] == 0:
                         self.winning_moves.append((element+3, 4-row_index, "v"))
 
-                elif element == 2:
+                if element == 2 or element == 1:
                     if row[element] == row[element+1] == row[element+2] == self.number and row[element-1] == 0:
                         self.winning_moves.append((element-1, 4-row_index, "v"))
                 
@@ -224,7 +223,7 @@ class MyBotReactive(Player):                                                #zwe
             if element == 0 or element == 1:
                 if diag_1_main[element] == diag_1_main[element+1] == diag_1_main[element+2] == self.number and diag_1_main[element+3] == 0:
                     self.winning_moves.append((element+3, element+2, "md"))
-            elif element == 2:
+            if element == 2 or element == 1:
                 if diag_1_main[element] == diag_1_main[element+1] == diag_1_main[element+2] == self.number and diag_1_main[element-1] == 0:
                     self.winning_moves.append((element-1, element-1, "md"))
 
@@ -265,7 +264,7 @@ class MyBotReactive(Player):                                                #zwe
                 if diag_flipped_main[element] == diag_flipped_under_main[element+1] == diag_flipped_main[element+2] == self.number and diag_flipped_main[element+3] == 0:
                     self.winning_moves.append((element+3, 4-(element+3), "fmd"))
 
-            elif element == 2:
+            if element == 2 or element == 1:
                 if diag_flipped_main[element] == diag_flipped_under_main[element+1] == diag_flipped_main[element+2] == self.number and diag_flipped_main[element-1] == 0:
                     self.winning_moves.append((element-1, 4-(element-1), "fmd"))
 

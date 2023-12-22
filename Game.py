@@ -1,7 +1,8 @@
 from Board import Board                                            #alle notwendigen Klassen-Importe 
 from Player import Player
-from MyBot import MyBotRandom
-from MyBot import MyBotReactive
+from MyBotRandoms import MyBotRandom
+from MyBotReactive import MyBotReactive
+from MyBotRandoms import MyBot2
 
 class Game:
     def __init__(self, m=5, n=5, k=4, player1=None, player2=None):                                                              #setz m,n und k default-mäßig auf 5,5 und 4 (Spiel funktioniert auch nur so)
@@ -81,7 +82,7 @@ def game_sim(number):
     count_bot_2 = 0
     count_draw = 0
     for i in range(number):
-        game=Game(player1=MyBotReactive(number=1), player2=MyBotReactive(number=2))
+        game=Game(player1=MyBotRandom(number=1), player2=MyBotReactive(number=2))
         game.game_loop()
         if game.board.has_won_diagonally() or game.board.has_won_horizontally() or game.board.has_won_vertically():
             winner.append(game.board.winner)
