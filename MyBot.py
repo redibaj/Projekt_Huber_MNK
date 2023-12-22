@@ -23,6 +23,7 @@ class MyBotReactive(Player):                                                #zwe
         self.possible_moves = []
         self.gefilterte_liste = []
         self.important_moves = []
+        self.winning_moves = []
                                        #Liste, die alle sinnvollen Spielzüge (also Markierungen auf Borad) speichert und aus der später ein Zug ausgeführt werden soll
     
     def make_random_move(self, board):                                      #Methode aus MyBotRandom, ermöglicht zufälligen Spielzug des Bots
@@ -64,51 +65,74 @@ class MyBotReactive(Player):                                                #zwe
         self.check_vertically(board)
         self.check_diagonally(board)
         self.gefilterte_liste = [tupel for tupel in self.possible_moves if 0 not in tupel and 4 not in tupel]
-        if self.possible_moves == [] and self.important_moves == []:
+        if self.possible_moves == [] and self.important_moves == [] and self.winning_moves == []:
             self.make_random_move(board)
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []
             return board.array
-        elif self.gefilterte_liste == [] and self.important_moves == []: 
+        elif self.gefilterte_liste == [] and self.important_moves == [] and self.winning_moves == []: 
             random_number = randint(0, len(self.possible_moves) - 1)
             print(f"mögliche Züge in Array-Index-Form in possible_moves: {self.possible_moves}")
-            print("Bot setzt hier: ")
+            print(f"Bot setzt hier: ({self.possible_moves[random_number][0], self.possible_moves[random_number][1]})")
             board.set_field_value(self.possible_moves[random_number][0], self.possible_moves[random_number][1], self.number)
             print()
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []
+            self.winning_moves = []
             return board.array
-        elif self.important_moves==[]:
+        elif self.important_moves == [] and self.winning_moves == []:
             random_number = randint(0, len(self.gefilterte_liste) - 1)
             print(f"mögliche Züge in Array-Index-Form in gefilterte_liste: {self.gefilterte_liste}")
-            print("Bot setzt hier: ")
+            print(f"Bot setzt hier: ({self.gefilterte_liste[random_number][0], self.gefilterte_liste[random_number][1]})")
             board.set_field_value(self.gefilterte_liste[random_number][0], self.gefilterte_liste[random_number][1], self.number)
             print()
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []
+            self.winning_moves = []
             return board.array
-        else:
+        elif self.winning_moves == []:
             random_number = randint(0, len(self.important_moves) - 1)
             print(f"mögliche Züge in Array-Index-Form in important_moves: {self.important_moves}")
-            print("Bot setzt hier: ")
+            print(f"Bot setzt hier: ({self.important_moves[random_number][0], self.important_moves[random_number][1]})")
             board.set_field_value(self.important_moves[random_number][0], self.important_moves[random_number][1], self.number)
             print()
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []
+            self.winning_moves = []
             return board.array
-        
+        else:
+            random_number = randint(0, len(self.winning_moves) - 1)
+            print(f"mögliche Züge in Array-Index-Form in important_moves: {self.winning_moves}")
+            print(f"Bot setzt hier: ({self.winning_moves[random_number][0], self.winning_moves[random_number][1]})")
+            board.set_field_value(self.winning_moves[random_number][0], self.winning_moves[random_number][1], self.number)  
+            print()
+            self.possible_moves = []
+            self.gefilterte_liste = []
+            self.important_moves = []
+            self.winning_moves = []
+            return board.array
 
     def check_horizontally(self, board):                     
         for row_index in range(len(board.array)):       #für spätere Indexierung des Arrays für speichern des möglichen Zuges
             row = board.array[row_index]                #zur Verbesserung der übersichtlichkeit
-            for element in range(len(row)):           #nur elemente in der Reihe
+            for element in range(len(row)):             #nur elemente in der Reihe
+
+                if element == 0 or element == 1:
+                    if row[element] == row[element+1] == row[element+2] == self.number and row[element+3] == 0:
+                        self.winning_moves.append((row_index, element+3, "h"))
+
+                elif element == 2:
+                    if row[element] == row[element+1] == row[element+2] == self.number and row[element-1] == 0:
+                        self.winning_moves.append((row_index, element-1, "h"))
+
                 if row[2] == 0 and row[1] == row [3] and row[1] != 0 and row[0] == row[4] == 0:
-                    self.important_moves.append((row_index,2))
-                elif row[element] != 0 and '''row[element] != self.number''' and element < 3:   #Feld von Gegner belegt und nicht am Rand
+                    self.important_moves.append((row_index, 2, "h"))
+
+                if row[element] != 0 and '''row[element] != self.number''' and element < 3:   #Feld von Gegner belegt und nicht am Rand
                     if row[element] == row[element + 1] == row[element + 2]:
                         if element == 2 and row[element-1] == 0:
                             self.important_moves.append((row_index, element - 1,"h"))
@@ -126,9 +150,10 @@ class MyBotReactive(Player):                                                #zwe
                         self.possible_moves.append((row_index, element+1,"h"))
                     else:
                         pass
+
                 elif row[element] != 0 and '''row[element] != self.number''' and element <= 4: #Feld von Gegner belegt und am Rand
-                    if row[element] == row[element - 1] and row[element - 2] == 0: 
-                            self.possible_moves.append((row_index, element - 2,"h"))
+                    if row[element] == row[element-1] and row[element-2] == 0: 
+                            self.possible_moves.append((row_index, element-2,"h"))
                     else:
                         pass
                 else:
@@ -140,9 +165,18 @@ class MyBotReactive(Player):                                                #zwe
         for row_index in range(len(transposed_board)):       #für spätere Indexierung des Arrays für speichern des möglichen Zuges
             row = transposed_board[row_index]                #zur Verbesserung der übersichtlichkeit
             for element in range(len(row)):              #nur elemente in der Reihe
+                if element == 0 or element == 1:
+                    if row[element] == row[element+1] == row[element+2] == self.number and row[element+3] == 0:
+                        self.winning_moves.append((element+3, 4-row_index, "v"))
+
+                elif element == 2:
+                    if row[element] == row[element+1] == row[element+2] == self.number and row[element-1] == 0:
+                        self.winning_moves.append((element-1, 4-row_index, "v"))
+                
                 if row[2] == 0 and row[1] == row[3] and row[1] != 0 and row[0] == row[4] == 0:
-                    self.important_moves.append((element, 4-row_index))
-                elif row[element] != 0 and '''row[element] != self.number''' and element < 3:   #Feld von Gegner belegt und nicht am Rand
+                    self.important_moves.append((2, 4-row_index, "v"))
+
+                if row[element] != 0 and '''row[element] != self.number''' and element < 3:   #Feld von Gegner belegt und nicht am Rand
                     if row[element] == row[element + 1] == row[element + 2]:            # 3 Felder in Folge belegt
                         if element == 2 and row[element-1] == 0:
                             self.important_moves.append((element-1, 4-row_index,"v"))
@@ -159,6 +193,7 @@ class MyBotReactive(Player):                                                #zwe
                         self.possible_moves.append((element+1, 4-row_index,"v"))
                     else:
                         pass
+
                 elif row[element] != 0 and '''row[element] != self.number''' and element <= 4: #Feld von Gegner belegt und am Rand
                     if row[element] == row[element - 1] and row[element - 2] == 0: 
                         self.possible_moves.append((element - 2, 4-row_index,"v"))
@@ -185,8 +220,17 @@ class MyBotReactive(Player):                                                #zwe
         #Überprüfung der Hauptdiagonalen nach 2 Steinen in Folge:
 
         for element in range(len(main_diagonals[0])):        #damit nur die Indizes und nicht die tatsächlichen Werte durchgegangen werden
+
+            if element == 0 or element == 1:
+                if diag_1_main[element] == diag_1_main[element+1] == diag_1_main[element+2] == self.number and diag_1_main[element+3] == 0:
+                    self.winning_moves.append((element+3, element+2, "md"))
+            elif element == 2:
+                if diag_1_main[element] == diag_1_main[element+1] == diag_1_main[element+2] == self.number and diag_1_main[element-1] == 0:
+                    self.winning_moves.append((element-1, element-1, "md"))
+
             if diag_1_main[2] == 0 == diag_1_main[0] == diag_1_main[4] and diag_1_main[1] == diag_1_main[3] and diag_1_main[2] != 0:
-                self.important_moves.append((2,2))
+                self.important_moves.append((2,2, "md"))
+
             if diag_1_main[element] != 0 and''' diag_1_main[element] != self.number''' and element < 3:
                 if diag_1_main[element] == diag_1_main[element + 1] == diag_1_main[element + 2]:
                     if element == 2 and diag_1_main[element-1] == 0:
@@ -206,6 +250,7 @@ class MyBotReactive(Player):                                                #zwe
                     self.possible_moves.append((element+1, element+1,"md"))
                 else:
                     pass
+
             elif diag_1_main[element] != 0 and '''diag_1_main[element] != self.number''' and element <= 4:
                 if diag_1_main[element] == diag_1_main[element - 1] and diag_1_main[element - 2] == 0:
                     self.possible_moves.append((element-2, element-2,"md"))
@@ -215,8 +260,18 @@ class MyBotReactive(Player):                                                #zwe
                 pass
 
         for element in range(len(main_diagonals[1])):        #weil Board geflipt wurde muss anders gespeichert werden, deshalb 2. 
+
+            if element == 0 or element == 1:
+                if diag_flipped_main[element] == diag_flipped_under_main[element+1] == diag_flipped_main[element+2] == self.number and diag_flipped_main[element+3] == 0:
+                    self.winning_moves.append((element+3, 4-(element+3), "fmd"))
+
+            elif element == 2:
+                if diag_flipped_main[element] == diag_flipped_under_main[element+1] == diag_flipped_main[element+2] == self.number and diag_flipped_main[element-1] == 0:
+                    self.winning_moves.append((element-1, 4-(element-1), "fmd"))
+
             if diag_flipped_main[2] == 0 == diag_flipped_main[0] == diag_flipped_main[4] and diag_flipped_main[1] == diag_flipped_main[3] and diag_flipped_main[2] != 0:
                 self.important_moves.append((2,2))
+
             if diag_flipped_main[element] != 0 and""" diag_flipped_main[element] != self.number""" and element < 3:
                 if diag_flipped_main[element] == diag_flipped_main[element + 1] == diag_flipped_main[element + 2]:
                     if element == 2 and diag_flipped_main[element-1] == 0:
@@ -236,6 +291,7 @@ class MyBotReactive(Player):                                                #zwe
                     self.possible_moves.append((element+1, 4-(element+1), "fmd"))
                 else:
                     pass
+
             elif diag_flipped_main[element] != 0 and ''' diag_flipped_main[element] != self.number''' and element <= 4:
                 if diag_flipped_main[element] == diag_flipped_main[element - 1] and diag_flipped_main[element - 2] == 0:
                     self.possible_moves.append((element-2, 4-(element-2), "fmd"))
@@ -248,6 +304,14 @@ class MyBotReactive(Player):                                                #zwe
         #für jede einzeln, wegen Unterschieden in Indexierung. Darum keine for-Schleife, die über Liste mit Nebendiagonalen iteriert   
         # fertig
         for element in range(len(diag_2_above_main)):
+
+            if element == 0:
+                if diag_2_above_main[element] == diag_2_above_main[element+1] == diag_2_above_main[element+2] == self.number and diag_2_above_main[element+3] == 0:
+                    self.winning_moves.append((element+3, 1+element+3, "amd"))
+            elif element == 1:
+                if diag_2_above_main[element] == diag_2_above_main[element+1] == diag_2_above_main[element+2] == self.number and diag_2_above_main[element-1] == 0:
+                    self.winning_moves.append((element-1, 1+(element-1), "amd"))
+
             if diag_2_above_main[element] != 0 and''' diag_2_above_main[element] != self.number''':
                 if element < 2:
                     if diag_2_above_main[element] == diag_2_above_main[element+1] == diag_2_above_main[element+2] and element ==0 and diag_2_above_main[element+3] == 0:
@@ -258,6 +322,7 @@ class MyBotReactive(Player):                                                #zwe
                     elif self.number not in diag_3_under_main:
                         if diag_2_above_main[element] == diag_2_above_main[element+1] and diag_2_above_main[element+2] == 0:
                             self.possible_moves.append((element+2, 1+element+2, "amd"))
+
                 elif element == 2: 
                     if self.number not in diag_3_under_main:
                         if diag_2_above_main[element] == diag_2_above_main[element+1] and diag_2_above_main[element-1] == 0:
@@ -267,6 +332,14 @@ class MyBotReactive(Player):                                                #zwe
         #fertig
         for element in range(len(diag_3_under_main)):
             if diag_3_under_main[element] != 0 and'''diag_3_under_main[element] != self.number''':
+                if element == 0:
+                    if diag_3_under_main[element] == diag_3_under_main[element+1] == diag_3_under_main[element+2] == self.number and diag_3_under_main[element+3] == 0:
+                        self.important_moves.append((1+element+3, element+3, "umd"))
+
+                elif element == 1:
+                    if diag_3_under_main[element] == diag_3_under_main[element+1] == diag_3_under_main[element+2] == self.number and diag_3_under_main[element-1] == 0:
+                       self.important_moves.append((1+(element-1), element-1, "umd")) 
+
                 if element < 2:
                     if diag_3_under_main[element] == diag_3_under_main[element+1] == diag_3_under_main[element+2] and element ==0 and diag_3_under_main[element+3] == 0:
                         self.important_moves.append((1+element+3, element+3, "umd"))
@@ -285,6 +358,14 @@ class MyBotReactive(Player):                                                #zwe
         
         for element in range(len(diag_flipped_above_main)):
             if diag_flipped_above_main[element] != 0 and'''diag_flipped_above_main[element] != self.number''':
+                if element == 0:
+                    if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] == diag_flipped_above_main[element+2] == self.number and diag_flipped_above_main[element+3] == 0:
+                        self.winning_moves.append((element+3, 3-(element+3), "afmd"))
+
+                elif element == 1:
+                    if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] == diag_flipped_above_main[element+2] == self.number and diag_flipped_above_main[element-1] == 0:
+                        self.winning_moves.append((element-1, 3-(element-1), "afmd"))
+
                 if element < 2:
                     if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] == diag_flipped_above_main[element+2] and element ==0 and diag_flipped_above_main[element+3] == 0:
                         self.important_moves.append((element+3, 3 - (element+3),"afmd"))
@@ -293,6 +374,7 @@ class MyBotReactive(Player):                                                #zwe
                     elif self.number not in diag_flipped_above_main:
                         if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] and diag_flipped_above_main[element+2] == 0:
                             self.possible_moves.append((element+2, 3 - (element+2), "afmd"))
+
                 elif element == 2: 
                     if self.number not in diag_flipped_above_main:
                         if diag_flipped_above_main[element] == diag_flipped_above_main[element+1] and diag_flipped_above_main[element-1] == 0:
@@ -303,6 +385,14 @@ class MyBotReactive(Player):                                                #zwe
         #indexierung fehlt
         for element in range(len(diag_flipped_under_main)):
             if diag_flipped_under_main[element] != 0 and ''' diag_flipped_under_main[element] != self.number''':
+                if element == 0:
+                    if diag_flipped_under_main[element] == diag_flipped_under_main[element+1] == diag_flipped_under_main[element+2] == self.number and diag_flipped_under_main[element+3] == 0:
+                        self.winning_moves.append((1+element+3, 4 - (element+3),"ufmd"))
+
+                elif element == 1:
+                    if diag_flipped_under_main[element] == diag_flipped_under_main[element+1] == diag_flipped_under_main[element+2] == self.number and diag_flipped_under_main[element-1] == 0:
+                        self.winning_moves.append((1+element-1, 4 - (element-1),"ufmd"))
+
                 if element < 2:
                     if diag_flipped_under_main[element] == diag_flipped_under_main[element+1] == diag_flipped_under_main[element+2] and element ==0 and diag_flipped_under_main[element+3] == 0:
                         self.important_moves.append((1+element+3, 4 - (element+3),"ufmd"))
