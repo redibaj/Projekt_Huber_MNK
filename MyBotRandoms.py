@@ -43,7 +43,8 @@ class MyBot2(Player):                                                      #zwei
                                                                                              #andere zufällige y-Koordinate wird generiert
         print(f"Bot setzt random hier: {x_coordinate + 1, 5 - y_coordinate}")
         board.set_field_value(y_coordinate, x_coordinate, self.number)                       #methode def. in Board-Klasse, markiert Spielzug auf dem Spielbrett
-        return board.array       
+        return board.array         
+
     
 
     def make_move(self, board):
@@ -53,10 +54,10 @@ class MyBot2(Player):                                                      #zwei
             self.bot2_make_random_move(board)
             return board.array
         else:
-            random_number = randint(0, len(self.possible_moves) - 1)
-            print(f"mögliche Züge in Array-Index-Form in possible_moves: {self.possible_moves}")
-            print(f"Bot setzt hier: ({self.possible_moves[random_number][0], self.possible_moves[random_number][1]})")
-            board.set_field_value(self.possible_moves[random_number][0], self.possible_moves[random_number][1], self.number)
+            random_number = randint(0, len(self.winning_moves_bot2) - 1)
+            print(f"mögliche Züge in Array-Index-Form in possible_moves: {self.winning_moves_bot2}")
+            print(f"Bot setzt hier: ({self.winning_moves_bot2[random_number][0], self.winning_moves_bot2[random_number][1]})")
+            board.set_field_value(self.winning_moves_bot2[random_number][0], self.winning_moves_bot2[random_number][1], self.number)
             self.winning_moves_bot2 = []
             return board.array
 
