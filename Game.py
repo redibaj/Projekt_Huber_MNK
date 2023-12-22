@@ -46,8 +46,11 @@ class Game:
             winner = self.board.has_won()                     #es wird mit Methode aus Board-Klasse überprüft, ob es einen Gewinner gibt (falls ja, würde hier True zurückgegeben werden)
             full_board = self.board.board_full()
             if winner == True:                                #sollte es einen Gewinner geben:
+                print()
+                self.board.display()
                 break                                         #Spiel wird beendet
             if full_board == True:                            #prüft, ob das es noch freie Stellen auf dem Spielfeld gibt (falls nicht, wird False zurückgegeben). Falls Feld voll sein sollte: 
+                print()
                 self.board.display()                          #zeigt ein letztes Mal das Spielfeld (es werden alle Felder belegt sein) 
                 print("Unentschieden!")                       #signalisiert das dadurch entstandene Unentschieden
                 break                                         #Spiel wird beendet
@@ -58,12 +61,15 @@ class Game:
             winner = self.board.has_won()                     #es wird mit Methode aus Board-Klasse überprüft, ob es einen Gewinner gibt (falls ja, würde hier True zurückgegeben und gespeichert werden)
             full_board = self.board.board_full()
             if winner == True:                                #sollte es einen Gewinner geben (bzw. die vorher definierten, dafür notwendigen Bedigungen erfüllt sein)
+                print()
                 self.board.display()                          #zeigt ein letztes Mal das Spielfeld an
                 break                                         #beendet Spiel an dieser Stelle
             if full_board == True:                            #sollte das Spielfeld keine freien Stellen mehr haben und dadurch kein Zug mehr möglich sein: 
                 print("Unentschieden!")                       #signalisiert das dadurch entstandene Unentschieden
+                print()
+                self.board.display()
                 break                                         #beendet das Spiel
-        print("Spiel vorbei")                                 #sobald Bedingungen der While-Schleife nicht mehr erfüllt sind, geht es hier weiter. Letzte Aktion ist diese Print-Ausgabe
+        print("\nSpiel vorbei")                                 #sobald Bedingungen der While-Schleife nicht mehr erfüllt sind, geht es hier weiter. Letzte Aktion ist diese Print-Ausgabe
 
 #game1=Game()
 #game1.start()
@@ -94,8 +100,8 @@ def game_sim(number):
         elif i == None:
             count_draw += 1
 
-    print("Sieger:")
-    print(f"Bot 1: {count_bot_1}\nBot 2: {count_bot_2}\nDraw: {count_draw}")
+    print("\nSieger:")
+    print(f"Bot 1: {count_bot_1}\nBot 2: {count_bot_2}\nDraw: {count_draw}\n")
 
 
-game_sim(1000)
+game_sim(100)
