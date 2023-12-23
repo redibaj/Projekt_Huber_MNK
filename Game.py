@@ -82,7 +82,7 @@ def game_sim(number):
     count_bot_2 = 0
     count_draw = 0
     for i in range(number):
-        game=Game(player1=MyBot2(number=1), player2=MyBotReactive(number=2))
+        game=Game(player1=MyBotReactive(number=1), player2=MyBotReactive(number=2))
         game.game_loop()
         if game.board.has_won_diagonally() or game.board.has_won_horizontally() or game.board.has_won_vertically():
             winner.append(game.board.winner)

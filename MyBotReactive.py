@@ -11,22 +11,28 @@ class MyBotReactive(Player):                                                #zwe
         self.gefilterte_liste = []
         self.important_moves = []
         self.winning_moves = []
-                                       #Liste, die alle sinnvollen Spielzüge (also Markierungen auf Borad) speichert und aus der später ein Zug ausgeführt werden soll
+        self.moves_to_get_2_in_a_row = []
+                                                                    #Liste, die alle sinnvollen Spielzüge (also Markierungen auf Borad) speichert und aus der später ein Zug ausgeführt werden soll
     
-    def make_random_move_or_get_two_in_row(self, board):                                      #Methode aus MyBotRandom, ermöglicht zufälligen Spielzug des Bots
-        if board.array[2][2] == 0:
-            y_coordinate = 2
-            x_coordinate = 2   
-        else:                     
-            all_possible_moves = list(np.argwhere(board.array == 0))         # gibt eine Liste von Tupeln zurück, die alle freien Felder (0) besitzen
-            for tupel in all_possible_moves:  
-                if 0 not in tupel and 4 not in tupel:
-                    y_coordinate = tupel[0]
-                    x_coordinate = tupel[1]
-                    break
-                else:
-                    y_coordinate = tupel[0]
-                    x_coordinate = tupel[1]
+    def make_random_move_or_get_two_in_row(self, board):  
+        if self.moves_to_get_2_in_a_row == []:                                    #Methode aus MyBotRandom, ermöglicht zufälligen Spielzug des Bots
+            if board.array[2][2] == 0:
+                y_coordinate = 2
+                x_coordinate = 2   
+            else:                     
+                all_possible_moves = list(np.argwhere(board.array == 0))         # gibt eine Liste von Tupeln zurück, die alle freien Felder (0) besitzen
+                for tupel in all_possible_moves:  
+                    if 0 not in tupel and 4 not in tupel:
+                        y_coordinate = tupel[0]
+                        x_coordinate = tupel[1]
+                        break
+                    else:
+                        y_coordinate = tupel[0]
+                        x_coordinate = tupel[1]
+        else:
+            random_number = randint(0, len(self.moves_to_get_2_in_a_row) - 1)
+            y_coordinate = self.moves_to_get_2_in_a_row[random_number][0]
+            x_coordinate = self.moves_to_get_2_in_a_row[random_number][1]
                                                                                              #andere zufällige y-Koordinate wird generiert
         print(f"Bot setzt random hier: {x_coordinate + 1, 5 - y_coordinate}")
         board.set_field_value(y_coordinate, x_coordinate, self.number)                       #methode def. in Board-Klasse, markiert Spielzug auf dem Spielbrett
@@ -38,7 +44,7 @@ class MyBotReactive(Player):                                                #zwe
         self.check_diagonally(board)
         self.gefilterte_liste = [tupel for tupel in self.possible_moves if 0 not in tupel and 4 not in tupel]
         if self.possible_moves == [] and self.important_moves == [] and self.winning_moves == []:
-            self.make_random_move(board)
+            self.make_random_move_or_get_two_in_row(board)
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []
@@ -88,15 +94,26 @@ class MyBotReactive(Player):                                                #zwe
             self.winning_moves = []
             return board.array
         
-    def check_for_own_number(self, board):
+    def check_for_empty_fields_around_own_number(self, board):
         own_number_counter = []
+        self.moves_to_get_2_in_a_row = []
         for row_index in range(len(board.array)):       
             row = board.array[row_index]                
             for element in range(len(row)):
                 if row[element] == self.number:
                     own_number_counter.append((row_index, element))
-        if len(own_number_counter) == 1:
-            return None
+        for position in own_number_counter:
+            row_index, col_index = position
+        
+        # Achte darauf, dass die umgebenden Positionen im Bereich des Arrays liegen (5x5)
+        for i in range(row_index - 1, row_index + 2):
+            for j in range(col_index - 1, col_index + 2):
+                # Überprüfe, ob die Position im Array liegt
+                if 0 <= i < 5 and 0 <= j < 5:
+                    # Überprüfe, ob der Wert der umliegenden Position 0 ist
+                    if board.array[i, j] == 0:
+                        self.moves_to_get_2_in_a_row.append((i, j))
+            
 
     def check_horizontally(self, board):                     
         for row_index in range(len(board.array)):       #für spätere Indexierung des Arrays für speichern des möglichen Zuges
