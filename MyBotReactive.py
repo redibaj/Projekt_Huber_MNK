@@ -13,7 +13,7 @@ class MyBotReactive(Player):                                                #zwe
         self.winning_moves = []
                                        #Liste, die alle sinnvollen Spielzüge (also Markierungen auf Borad) speichert und aus der später ein Zug ausgeführt werden soll
     
-    def make_random_move(self, board):                                      #Methode aus MyBotRandom, ermöglicht zufälligen Spielzug des Bots
+    def make_random_move_or_get_two_in_row(self, board):                                      #Methode aus MyBotRandom, ermöglicht zufälligen Spielzug des Bots
         if board.array[2][2] == 0:
             y_coordinate = 2
             x_coordinate = 2   
@@ -32,33 +32,6 @@ class MyBotReactive(Player):                                                #zwe
         board.set_field_value(y_coordinate, x_coordinate, self.number)                       #methode def. in Board-Klasse, markiert Spielzug auf dem Spielbrett
         return board.array                                                                          #gibt das aktualisierte Spielbrett zurück
     
-    
-        
-        
-    
-    # def make_move(self, board):
-    #     self.check_horizontally(board)
-    #     self.check_vertically(board)
-    #     self.check_diagonally(board)
-    #     self.gefilterte_liste = [tupel for tupel in self.possible_moves if 0 not in tupel and 4 not in tupel]
-    #     if self.possible_moves == [] and self.important_moves == []:
-    #         self.make_random_move(board)
-    #     elif self.gefilterte_liste == [] and self.important_moves == []: 
-    #         random_number = randint(0, len(self.possible_moves) - 1)
-    #         print(f"mögliche Züge in Array-Index-Form in possible_moves: {self.possible_moves}")
-    #         print("Bot setzt hier: ")
-    #     # Check if the chosen field is already occupied before making a move
-    #     if board.return_field_value(self.possible_moves[random_number][0], self.possible_moves[random_number][1]) == 0:
-    #         board.set_field_value(self.possible_moves[random_number][0], self.possible_moves[random_number][1], self.number)
-    #     else:
-    #         # If the chosen field is already occupied, remove it from the list of possible moves and choose another move
-    #         self.possible_moves.remove(self.possible_moves[random_number])
-    #         if self.possible_moves:
-    #             random_number = randint(0, len(self.possible_moves) - 1)
-    #             board.set_field_value(self.possible_moves[random_number][0], self.possible_moves[random_number][1], self.number)
-    #     print()
-    #     return board.array   
-
     def make_move(self, board):
         self.check_horizontally(board)
         self.check_vertically(board)
@@ -114,6 +87,16 @@ class MyBotReactive(Player):                                                #zwe
             self.important_moves = []
             self.winning_moves = []
             return board.array
+        
+    def check_for_own_number(self, board):
+        own_number_counter = []
+        for row_index in range(len(board.array)):       
+            row = board.array[row_index]                
+            for element in range(len(row)):
+                if row[element] == self.number:
+                    own_number_counter.append((row_index, element))
+        if len(own_number_counter) == 1:
+            return None
 
     def check_horizontally(self, board):                     
         for row_index in range(len(board.array)):       #für spätere Indexierung des Arrays für speichern des möglichen Zuges
