@@ -222,7 +222,7 @@ class MyBotReactive(Player):                                                #zwe
 
             if element == 0 or element == 1:
                 if diag_1_main[element] == diag_1_main[element+1] == diag_1_main[element+2] == self.number and diag_1_main[element+3] == 0:
-                    self.winning_moves.append((element+3, element+2, "md"))
+                    self.winning_moves.append((element+3, element+3, "md"))
             if element == 2 or element == 1:
                 if diag_1_main[element] == diag_1_main[element+1] == diag_1_main[element+2] == self.number and diag_1_main[element-1] == 0:
                     self.winning_moves.append((element-1, element-1, "md"))
