@@ -77,12 +77,15 @@ class Game:
 
 
 def game_sim(number):
+    with open("game_sim.csv", "w") as doc_file:
+        doc_file.write("MyBotRandom vs. MyBotReactive\nStarter: MyBotRandom\n\n")
+    
     winner = []
     count_bot_1 = 0
     count_bot_2 = 0
     count_draw = 0
     for i in range(number):
-        game=Game(player1=MyBotReactive(number=1), player2=MyBotReactive(number=2))
+        game=Game(player1=MyBotRandom(number=1), player2=MyBotReactive(number=2))
         game.game_loop()
         if game.board.has_won_diagonally() or game.board.has_won_horizontally() or game.board.has_won_vertically():
             winner.append(game.board.winner)
@@ -92,14 +95,19 @@ def game_sim(number):
     for i in winner:
         if i == 1:
             count_bot_1 += 1
+            doc_file.write("Bot 1\n")
         elif i == 2:
             count_bot_2 += 1
+            doc_file.write("Bot 2\n")
         elif i == {1}:
             count_bot_1 += 1
+            doc_file.write("Bot 1\n")
         elif i == {2}:
             count_bot_2 += 1
+            doc_file.write("Bot 2\n")
         elif i == None:
             count_draw += 1
+            doc_file.write("Draw\n")
 
     print("\nSieger:")
     print(f"Bot 1: {count_bot_1}\nBot 2: {count_bot_2}\nDraw: {count_draw}\n")
