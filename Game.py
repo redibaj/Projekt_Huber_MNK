@@ -14,14 +14,14 @@ class Game:
         self.player2 = player2                             #Spieler2 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
     
     def start(self):                                                                                #Methode, die vor eigenltichem Spielstart die gewünschten Parameter abfragt
-        print("Wilkommen! Wie möchtest du spielen?\nPlayer vs. Player [1] / Player vs. Bot [2]")    #Begrüßung und Wahl der Spielart
+        print("Willkommen! Wie möchtest du spielen?\nPlayer vs. Player [1] / Player vs. Bot [2]")    #Begrüßung und Wahl der Spielart
         choice = input(">>> ")                                                                      #Spieler wählt Spielart
         if choice == "1":    
             self.player1 = Player(name=input("Name Spieler 1: "), number=1)                             #Spieler1 = Objekt der Klasse Spieler mit dem Namen, den der Spieler selbst eingibt
             self.player2 = Player(name=input("Name Spieler 2: "), number=2)                                                                        #wenn Spieler vs. Spieler gewählt:
             self.game_loop()                                                                        #game-loop wird gestartet
         elif choice == "2":                                                                         #wenn Spieler vs. Bot gewählt: 
-            print("Welches Level soll der Bot haben? [1] / [2]")                                    #Frage nach gwünschtem Bot-Levels / der Schwierigkeitsstufe des Bots
+            print("Welches Level soll der Bot haben? [1] / [2] / [3]")                              #Frage nach gwünschtem Bot-Levels / der Schwierigkeitsstufe des Bots
             bot_level = input(">>> ")                                                               #Eingabe des Spielers
             if bot_level == "1": 
                 self.player1 = Player(name=input("Name Spieler 1: "), number=1)                                                                   #wenn einfacher Bot (Level 1)
@@ -30,7 +30,13 @@ class Game:
                 self.game_loop()                                                                    #game-loop wird gestartet
             elif bot_level == "2":      
                 self.player1 = Player(name=input("Name Spieler 1: "), number=1)                                                                   #wenn schwierigerer Bot (Level 2)
-                self.player2 = MyBotReactive(number=2)                                              #Spieler 2 wird durch Bot Level 2 mit Spielernummer/-markierung 2 ersetzt
+                self.player2 = MyBot2(number=2)                                              #Spieler 2 wird durch Bot Level 2 mit Spielernummer/-markierung 2 ersetzt
+                print()
+                print("Einleitung\nDas Spielfeld besteht aus 5x5 Feldern.\nEin leeres Feld wird durch eine 0 gekennzeichnet, ein belegtes Feld durch eine 1 oder 2.\nSpielt ihr zu zweit, so belegt Spieler 1 das Feld mit einer 1 und Spieler 2 mit einer 2.\nSpielst du alleine, so legst du automatisch die 1 und der Computer die 2.\nDu kannst Werte zwischen 1 und 5 angeben.\nDer erste Wert beschreibt die Horizontale, der zweite die Vertikale\nDie Eingabe ähnelt der bei 'Schiffe versenken'\nDie Werte dürfen nicht in einer Klammer stehen!\n")
+                self.game_loop()                                                                    #game-loop wird gestartet
+            elif bot_level == "3":
+                self.player1 = Player(name=input("Name Spieler 1: "), number=1)                     #wenn schwierigerer Bot (Level 2)
+                self.player2 = MyBotReactive(number=2)                                                     #Spieler 2 wird durch Bot Level 2 mit Spielernummer/-markierung 2 ersetzt
                 print()
                 print("Einleitung\nDas Spielfeld besteht aus 5x5 Feldern.\nEin leeres Feld wird durch eine 0 gekennzeichnet, ein belegtes Feld durch eine 1 oder 2.\nSpielt ihr zu zweit, so belegt Spieler 1 das Feld mit einer 1 und Spieler 2 mit einer 2.\nSpielst du alleine, so legst du automatisch die 1 und der Computer die 2.\nDu kannst Werte zwischen 1 und 5 angeben.\nDer erste Wert beschreibt die Horizontale, der zweite die Vertikale\nDie Eingabe ähnelt der bei 'Schiffe versenken'\nDie Werte dürfen nicht in einer Klammer stehen!\n")
                 self.game_loop()                                                                    #game-loop wird gestartet
@@ -72,8 +78,8 @@ class Game:
                 break                                         #beendet das Spiel
         print("\nSpiel vorbei")                                 #sobald Bedingungen der While-Schleife nicht mehr erfüllt sind, geht es hier weiter. Letzte Aktion ist diese Print-Ausgabe
 
-#game1=Game()
-#game1.start()
+game1=Game()
+game1.start()
 
 
 def game_sim(number):
@@ -113,4 +119,4 @@ def game_sim(number):
     print(f"Bot 1: {count_bot_1}\nBot 2: {count_bot_2}\nDraw: {count_draw}\n")
 
 
-game_sim(100)
+#game_sim(100)
