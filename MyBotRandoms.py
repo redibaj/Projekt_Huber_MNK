@@ -5,17 +5,16 @@ from random import randint
 
 
 class MyBotRandom(Player):
-'''Bot, der nur random Züge spielen kann. '''
-
+    '''Bot, der nur random Züge spielen kann'''
     def __init__(self, number):
         self.number = number        
 
     def make_move(self, board = Board):  
-    '''ermöglicht dem Bot das setzen seiner Markierung auf dem Spielfeld-Array.
-       2 Pseudo-Zufallszahlen werden erstellt, die für die Indexierung eines Feldes
-       verwendet werden. Ist Feld frei, setzt Bot an dieser Stelle. Andernfalls werden
-       neue Zufallszahlen generiert, bis der Bot ein leeres Feld trifft''' 
-                                        
+        '''Ermöglicht dem Bot das Setzen seiner Markierung auf dem Spielfeld-Array.
+        2 Pseudo-Zufallszahlen werden erstellt, die für die Indexierung eines Feldes
+        verwendet werden. Ist Feld frei, setzt Bot an dieser Stelle. Andernfalls werden
+        neue Zufallszahlen generiert, bis der Bot ein leeres Feld trifft
+        '''                        
         x_coordinate = randint(0,4)                                         
         y_coordinate = randint(0,4)                                         
         while board.array[y_coordinate][x_coordinate] != 0:                 #wenn Feld belegt
@@ -28,18 +27,20 @@ class MyBotRandom(Player):
 
 
 class MyBot2(Player):         
-'''Bot etwas besser als random'''    
+    '''Bot etwas besser als random'''    
 
     def __init__(self, number):
         self.number = number
         self.winning_moves_bot2 = []
 
     def bot2_make_random_move(self, board):          
-    '''Bot schaut, ob er mittig auf dem Spielfeld setzen kann. Falls nicht,
-       versucht er, den Rand möglichst zu meiden. Der Bot teilt im Terminal mit,
-       an welcher Stelle er setzt, platziert seine Markierung und übergibt das aktualisierte Spielfeld
-       inklusiver seiner letzten Markierung an die Game-Klasse'''                           
+        '''Prüft auf sonnvolle, random Züge
         
+        Bot prüft, ob zentrales Feld frei ist, aufgrund dessen strategischer Stärke.
+        Sollte es belegt sein, werden alle freien Felder in einer Liste gespeichert.
+        Bot prüft Liste auf Felder, die nicht am Spielfeldrand liegen.
+        Wenn auch die alle belet: Bot setzt auf zufälliges freies Feld
+        '''                         
         if board.array[2][2] == 0:
             y_coordinate = 2
             x_coordinate = 2   
@@ -59,6 +60,11 @@ class MyBot2(Player):
         return board.array         
 
     def make_move(self, board):
+        '''Bot prüft horizontal und vertikal auf eigene Gewinnmöglichkeit und setzt entsprechend
+        
+        Bot prüft, ob er selbst gewinnen kann. Wenn ja, wird an einer zufällig gewählten Stelle gesetzt,
+        an der er gewinnen kann. Wenn nicht, wird random gesetzt.
+        '''
         self.check_horizontally(board)
         self.check_vertically(board)
         if self.winning_moves_bot2 == []:
@@ -73,30 +79,39 @@ class MyBot2(Player):
             return board.array
 
     def check_horizontally(self, board):     
-    '''überprüft, ob horizontal auf dem Spielfeld 3 Steine in einer Reihe sind.'''                
+        '''Überprüft, ob horizontal auf dem Spielfeld 3 eigene Steine in einer Reihe sind
+        
+        Verfahren: Spielfeld wird zeilenweise durchgegangen. Wenn 3 eigene Steine in einer Reihe sind,
+        wird geprüft, ob das Feld rechts oder links von der Reihe frei ist. Wenn ja, wird dieses Feld
+        in eine Liste gespeichert, die alle möglichen Gewinnzüge enthält.
+        '''                
         for row_index in range(len(board.array)):       
             row = board.array[row_index]               
             for element in range(len(row)):             
-
+                #2 Prüfungsmethoden, da sonst Indexfehler
                 if element == 0 or element == 1:
                     if row[element] == row[element+1] == row[element+2] == self.number and row[element+3] == 0:
-                        self.winning_moves_bot2.append((row_index, element+3, "h"))
+                        self.winning_moves_bot2.append((row_index, element+3))
 
                 if element == 2 or element == 1:
                     if row[element] == row[element+1] == row[element+2] == self.number and row[element-1] == 0:
-                        self.winning_moves_bot2.append((row_index, element-1, "h"))    
+                        self.winning_moves_bot2.append((row_index, element-1))    
 
 
-    def check_vertically(self, board):       
-        transposed_board = np.rot90(board.array)         #flippt das board um 90° -> die Spalten werden zu Zeilen              
-        for row_index in range(len(transposed_board)):       #für spätere Indexierung des Arrays für speichern des möglichen Zuges
-            row = transposed_board[row_index]                #zur Verbesserung der übersichtlichkeit
-            for element in range(len(row)):              #nur elemente in der Reihe
+    def check_vertically(self, board):     
+        '''Überprüft, ob vertikal auf dem Spielfeld 3 eigene Steine in einer Reihe sind
+        
+        Spielfeld wird um 90° gedreht, um die vertikalen Reihen zu überprüfen.
+        Verfahren ansonsten identisch zu check_horizontally()
+        '''  
+        transposed_board = np.rot90(board.array)                     
+        for row_index in range(len(transposed_board)):       
+            row = transposed_board[row_index]                
+            for element in range(len(row)):              
                 if element == 0 or element == 1:
                     if row[element] == row[element+1] == row[element+2] == self.number and row[element+3] == 0:
-                        self.winning_moves_bot2.append((element+3, 4-row_index, "v"))
+                        self.winning_moves_bot2.append((element+3, 4-row_index))
 
                 if element == 2 or element == 1:
                     if row[element] == row[element+1] == row[element+2] == self.number and row[element-1] == 0:
-                        self.winning_moves_bot2.append((element-1, 4-row_index, "v"))                                                             
-
+                        self.winning_moves_bot2.append((element-1, 4-row_index))                                                             
