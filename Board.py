@@ -1,5 +1,6 @@
 import numpy as np
 class Board():
+    '''Erstellt ein Spielfeld mit den Dimensionen m x n und einer Gewinnbedingung von k in Folge'''
     def __init__(self, m=5, n=5, k=4):
         self.m = m
         self.n = n
@@ -12,8 +13,7 @@ class Board():
         print(self.array)
     
     def return_field_value(self, x, y):           
-        '''
-        Gibt den Wert eines Feldes zurück.
+        '''Gibt den Wert eines Feldes zurück.
          
         Findet statt, um zu prüfen, ob an der Stelle 
         gelegt werden darf (Darf, wenn Wert = 0)
@@ -25,8 +25,7 @@ class Board():
         self.array[int(x)][int(y)] = value
 
     def board_full(self):
-        '''
-        Prüft, ob das Spielfeld voll ist
+        '''Prüft, ob das Spielfeld voll ist
         
         Überblickt alle Elemente des Spielfeldes und zählt, wie viele Felder 
         belegt sind. Wenn alle Felder belegt sind, ist das Spielfeld voll.
@@ -50,8 +49,7 @@ class Board():
             return False                          
 
     def has_won_horizontally(self):
-        '''
-        Prüft alle Reihen auf horizontalen Sieg
+        '''Prüft alle Reihen auf horizontalen Sieg
         
         Indiziert durch die Reihen und schaut, ob 4 Elemente (ungleich 0) in Folge gleich sind.
         Falls ja, wird das Spielfeld angezeigt und Gewinner gespeichert.
@@ -69,17 +67,18 @@ class Board():
                         pass  
                                                                
                         
-    def has_won_vertically(self):                           
+    def has_won_vertically(self):   
+        '''Prüft alle Spalten auf vertikalen Sieg           
+
+        Dreht das Board um 90° und prüft dann die Reihen auf horizontalen Sieg.
+        Gleiche Methodik wie in has_won_horizontally()
+        '''             
         transposed_board = np.transpose(self.array)                     #flippt das board um 90° -> die Spalten werden zu Zeilen                             
         for row in transposed_board:                                    #für jede Reihe in transposed_board     
             for i in range(len(row) - 3):                               #ab hier gleich
                 if row[i] != 0:                                             #schaut, ob Element nicht 0 ist
                     if row[i] == row[i + 1] == row[i + 2] == row[i + 3]:    #schuat, ob 4 Elemente in Folge gleich sind
                         print("Wir haben einen vertikalen Sieger!")
-                        # if row[i] == 1:
-                        #     print(f"Sieger: {Game.player1}")
-                        # elif row[i] == 2:
-                        #     print(f"Sieger: {Game.player2}")
                         print("Winning ELement: ", int(row[i]))
                         self.display() 
                         self.winner = int(row[i])
@@ -89,65 +88,51 @@ class Board():
                       
     
     def has_won_diagonally(self):
-        diag_1_main = list(self.array.diagonal())                                                #gibt Diagonale von links oben nach rechts unten aus
-        diag_2_above_main = set(self.array.diagonal(offset=1) )                                         #gibt Diagonale da drüber aus
-        diag_3_under_main = set(self.array.diagonal(offset=-1))                                         #gibt Diagonale da drunter aus
+        '''Prüft auf Sieg in den Diagonalen (Haupt- und Nebendiagonalen)
 
-        flipped_board = np.fliplr(self.array)                                                    #spiegelt das board vertikal
+        Definiert zunächst alle Haupt- und Nebendiagonalen.
+        Prüft dann, ob in einer Diagonalen 4 Elemente gleich sind.
+        Sind in einer Diagonalen 4 Elemente gleich, wird das Spielfeld angezeigt und Gewinner gespeichert.
+        '''
+        diag_1_main = list(self.array.diagonal())                                                
+        diag_2_above_main = set(self.array.diagonal(offset=1) )                                         
+        diag_3_under_main = set(self.array.diagonal(offset=-1))                                         
 
-        diag_flipped_main = list(flipped_board.diagonal())                                              #gibt Diagonale von rechts oben nach links unten aus
-        diag_flipped_above_main = set(flipped_board.diagonal(offset=1))                                 #gibt Diagonale da drüber aus
-        diag_flipped_under_main = set(flipped_board.diagonal(offset=-1))                                #gibt Diagonale da drunter aus
+        flipped_board = np.fliplr(self.array)        #Board drehen, um andere Diagonalen zu bekommen
+
+        diag_flipped_main = list(flipped_board.diagonal())                                              
+        diag_flipped_above_main = set(flipped_board.diagonal(offset=1))                                 
+        diag_flipped_under_main = set(flipped_board.diagonal(offset=-1))                                
+
+        main_diagonals = [diag_1_main, diag_flipped_main]                                                       
+        side_diagonals = [diag_2_above_main, diag_3_under_main, diag_flipped_above_main, diag_flipped_under_main]   
 
 
-        main_diagonals = [diag_1_main, diag_flipped_main]                                                           #liste mit allen Hauptdiagonalen
-        side_diagonals = [diag_2_above_main, diag_3_under_main, diag_flipped_above_main, diag_flipped_under_main]   #liste mit allen Nebendigonalen (über/unter Hauptdiagonalen)
-
-      
-        #Überprüfung der Hauptdiagonalen nach Gewinner:
-        #Idee: wenn ersten oder letzten 4 Elemente einer Hauptdiagonalen gleich sind, dann ist in dieser Diagonalen k=4
-        
-        #für Hauptdiagonalen:
         for x in main_diagonals:
-            if x[0] == x[1] == x[2] == x[3] and x[0] != 0:                    #prüft ersten 4 Elemente beider Hauptdiagonalen und schaut, ob sie gleich sind
+            #sind 4 Elemente gleich und nicht 0, dann ist Gewinner
+            if x[0] == x[1] == x[2] == x[3] and x[0] != 0:                    
                 print("Wir haben einen diagonalen Sieger!")
-                # if x[0] == 1:
-                #     print(f"Sieger: {Game.player1}")
-                # elif x[0] == 2:
-                #     print(f"Sieger: {Game.player2}")
                 print("Winning ELement: ", int(x[0]))
                 self.display()
                 self.winner = int(x[0])
                 return True                                   
                 
-            elif x[4] == x[3] == x[2] == x[1] and x[4] != 0:                  #prüft, ob die letzten 4 Elemente gleich sind und ob sie nicht 0 sind            
+            elif x[4] == x[3] == x[2] == x[1] and x[4] != 0:                            
                 print("Wir haben einen diagonalen Sieger!")
-                # if x[4] == 1:
-                #     print(f"Sieger: {Game.player1}")
-                # elif x[4] == 2:
-                #     print(f"Sieger: {Game.player2}")
                 print("Winning ELement: ", int(x[4]))    
                 self.display()
                 self.winner = int(x[4])
                 return True                                                         
+            
 
-        #für zweite Hauptdiagonale:
-        
-        #Überprüfung der Nebendiagonalen nach Gewinner:
-        #Idee: Nebendiagonalen haben aufgrund der Anordnung des Spielfeldes immer 4 Elemente
-        #wenn ein Set mit Werten einer unserer Nebendiagonalen nur einen Wert hat, dann ist in dieser Diagonalen k=4
-        #      -> nur ein Wert: Gewinner, da er 4 in einer Reihe hat
-
-        for element in side_diagonals:                                  #für jedes Element in der Liste der Nebendiagonalen 
-            if len(set(element)) == 1 and element != {0}:                    #Gefahr: Menge mit Wert 0: es wurde kein Wert von Spieler eingegeben, trotzdem ist 4 mal 0 in einer Reihe
+        for element in side_diagonals:
+            #erstellt Set aus allen Elementen der Nebendiagonalen
+            #wenn Set nur ein Element und Element ungleich 0: Gewinner                                 
+            if len(set(element)) == 1 and element != {0}:                    
                 print("Wir haben einen Nebendiagonalen Sieger!")
-                # if element == {1}:
-                #     print(f"Sieger: {Game.player1}")
-                # elif element == {2}:
-                #     print(f"Sieger: {Game.player2}")
                 print("Winning Element: ", set(element))
                 self.display()
                 self.winner = set(element)
                 return True
 
-        return False               #erst hier, damit ganze Funktion durchlaufen wird und nicht bei erstem False abgebrochen wird      
+        return False        #wenn kein Gewinner in Diagonalen
