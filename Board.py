@@ -7,16 +7,31 @@ class Board():
         self.array = np.zeros((self.m, self.n))
         self.winner = None
 
-    def display(self):                   #zeigt das Spielfeld an
+    def display(self): 
+        '''Zeigt das Spielfeld an'''               
         print(self.array)
     
-    def return_field_value(self, x, y):           #gibt den Wert eines Feldes zurück
-        return self.array[x][y]                   #self.array = Spielfeld, gibt Wert zurück um zu prüfen, ob an der Stelle gelegt werden darf
+    def return_field_value(self, x, y):           
+        '''
+        Gibt den Wert eines Feldes zurück.
+         
+        Findet statt, um zu prüfen, ob an der Stelle 
+        gelegt werden darf (Darf, wenn Wert = 0)
+        '''
+        return self.array[x][y]                   
     
-    def set_field_value(self, x, y, value):       #macht möglich, dass Spieler setzen können
+    def set_field_value(self, x, y, value):
+        '''Ermöglicht Änderung eines Werts/setzen einer Markierung auf dem Spielfeld'''
         self.array[int(x)][int(y)] = value
 
     def board_full(self):
+        '''
+        Prüft, ob das Spielfeld voll ist
+        
+        Überblickt alle Elemente des Spielfeldes und zählt, wie viele Felder 
+        belegt sind. Wenn alle Felder belegt sind, ist das Spielfeld voll.
+        Beginnt bei 25 und zählt für jedes Element, das nicht 0 ist, 1 runter.
+        '''
         zero_counter = 25
         for row in self.array:
             for element in row:
@@ -27,22 +42,25 @@ class Board():
         else: 
             return False
 
-    def has_won(self):                            #um alle Gewinnmöglichkeiten zu prüfen
+    def has_won(self):                            
+        '''Prüft, ob ein Spieler gewonnen hat'''
         if self.has_won_horizontally() or self.has_won_vertically() or self.has_won_diagonally():
-            return True                           #damit main-loop beendet wird  
+            return True                           
         else:
-            return False                          #damit main-loop weiterläuft
+            return False                          
 
     def has_won_horizontally(self):
-        for row in self.array:                                                       #für jede Reihe in board.array
-            for i in range(len(row) -3):                                             #für jedes Element in der Reihe
-                if row[i] != 0:                                                      #wenn das Element nicht 0 ist                                         
-                    if (row[i] == row[i + 1] == row[i + 2] == row[i + 3]):           #wenn 4 Elemente in Folge gleich sind
+        '''
+        Prüft alle Reihen auf horizontalen Sieg
+        
+        Indiziert durch die Reihen und schaut, ob 4 Elemente (ungleich 0) in Folge gleich sind.
+        Falls ja, wird das Spielfeld angezeigt und Gewinner gespeichert.
+        '''
+        for row in self.array:                                                       
+            for i in range(len(row) -3):         #um innerhalb Spielfeld zu bleiben                                  
+                if row[i] != 0:                                                                                              
+                    if (row[i] == row[i + 1] == row[i + 2] == row[i + 3]):          
                         print("Wir haben einen horizontalen Sieger!") 
-                        # if row[i] == 1:
-                        #     print(f"Sieger: {Game.player1}")
-                        # elif row[i] == 2:
-                        #     print(f"Sieger: {Game.player2}")
                         print("Winning ELement: ", int(row[i]))
                         self.winner = int(row[i])
                         self.display()
