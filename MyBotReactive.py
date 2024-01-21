@@ -1,5 +1,5 @@
 from Player import Player
-from Board import Board
+#from Board import Board
 import numpy as np
 from random import randint
 
@@ -10,7 +10,8 @@ class MyBotReactive(Player):
         
         Eigenschaften umfassen Spielernummer sowie Listen für mögliche Züge, wichtige Züge und gewinnbringende Züge
         '''                                       
-        self.number = number                                                
+        self.number = number
+        self.name = "MyBot3"                                                
         self.possible_moves = []
         self.gefilterte_liste = []
         self.important_moves = []
@@ -49,7 +50,7 @@ class MyBotReactive(Player):
             y_coordinate = self.moves_to_get_2_in_a_row[random_number][0]
             x_coordinate = self.moves_to_get_2_in_a_row[random_number][1]
                                                                                              
-        print(f"Bot setzt random hier: {x_coordinate + 1, 5 - y_coordinate}")
+        print(f"Bot setzt hier: {x_coordinate + 1, 5 - y_coordinate} \n")
         board.set_field_value(y_coordinate, x_coordinate, self.number)                       
         return board.array                                                                          
     
@@ -76,10 +77,8 @@ class MyBotReactive(Player):
         elif self.gefilterte_liste == [] and self.important_moves == [] and self.winning_moves == []: 
             #wenn lediglich strategische unwichtigere Züge möglich sind:
             random_number = randint(0, len(self.possible_moves) - 1)
-            print(f"mögliche Züge in Array-Index-Form in possible_moves: {self.possible_moves}")
-            print(f"Bot setzt hier: ({self.possible_moves[random_number][0], self.possible_moves[random_number][1]})")
+            print(f"Bot setzt hier: ({self.possible_moves[random_number][0]+1, 5-self.possible_moves[random_number][1]}) \n")
             board.set_field_value(self.possible_moves[random_number][0], self.possible_moves[random_number][1], self.number)
-            print()
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []
@@ -88,10 +87,8 @@ class MyBotReactive(Player):
         elif self.important_moves == [] and self.winning_moves == []:
             #wenn strategisch sinnvollere, aber keine wichtigen Züge möglich sind:
             random_number = randint(0, len(self.gefilterte_liste) - 1)
-            print(f"mögliche Züge in Array-Index-Form in gefilterte_liste: {self.gefilterte_liste}")
-            print(f"Bot setzt hier: ({self.gefilterte_liste[random_number][0], self.gefilterte_liste[random_number][1]})")
+            print(f"Bot setzt hier: ({self.gefilterte_liste[random_number][0]+1, 5-self.gefilterte_liste[random_number][1]}) \n")
             board.set_field_value(self.gefilterte_liste[random_number][0], self.gefilterte_liste[random_number][1], self.number)
-            print()
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []
@@ -100,10 +97,8 @@ class MyBotReactive(Player):
         elif self.winning_moves == []:
             #wenn wichtige Züge möglich sind:
             random_number = randint(0, len(self.important_moves) - 1)
-            print(f"mögliche Züge in Array-Index-Form in important_moves: {self.important_moves}")
-            print(f"Bot setzt hier: ({self.important_moves[random_number][0], self.important_moves[random_number][1]})")
+            print(f"Bot setzt hier: ({self.important_moves[random_number][0]+1, 5-self.important_moves[random_number][1]})\n")
             board.set_field_value(self.important_moves[random_number][0], self.important_moves[random_number][1], self.number)
-            print()
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []
@@ -112,10 +107,8 @@ class MyBotReactive(Player):
         else:
             #wenn gewinnbringende/verhindernde Züge möglich/nötig sind:
             random_number = randint(0, len(self.winning_moves) - 1)
-            print(f"mögliche Züge in Array-Index-Form in important_moves: {self.winning_moves}")
-            print(f"Bot setzt hier: ({self.winning_moves[random_number][0], self.winning_moves[random_number][1]})")
+            print(f"Bot setzt hier: ({self.winning_moves[random_number][0]+1, 5-self.winning_moves[random_number][1]}) \n")
             board.set_field_value(self.winning_moves[random_number][0], self.winning_moves[random_number][1], self.number)  
-            print()
             self.possible_moves = []
             self.gefilterte_liste = []
             self.important_moves = []

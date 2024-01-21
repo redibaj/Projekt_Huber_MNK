@@ -86,13 +86,12 @@ class Game:
             winner = self.board.has_won()                   
             full_board = self.board.board_full()
             if winner == True:                               
-                print()
                 self.board.display()
+                print(f"\n {self.player1.name} hat gewonnen!")
                 break                                         
             if full_board == True:                            
-                print()
                 self.board.display()                          
-                print("Unentschieden!")                       
+                print("\n Unentschieden!")                       
                 break                                         
             self.board.display()                              
             print()
@@ -101,15 +100,14 @@ class Game:
             winner = self.board.has_won()                    
             full_board = self.board.board_full()
             if winner == True:                               
-                print()
-                self.board.display()                        
+                self.board.display()               
+                print(f"\n {self.player2.name} hat gewonnen!")
                 break                                        
             if full_board == True:                           
-                print("Unentschieden!")                       
-                print()
+                print("\n Unentschieden!")                       
                 self.board.display()
                 break                                         
-        print("\nSpiel vorbei")                               
+        print("\nDas Spiel ist vorbei.")                               
 
 game1=Game()
 game1.start()

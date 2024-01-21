@@ -7,6 +7,7 @@ class Board():
         self.k = k
         self.array = np.zeros((self.m, self.n))
         self.winner = None
+    
 
     def display(self): 
         '''Zeigt das Spielfeld an'''               
@@ -58,10 +59,6 @@ class Board():
             for i in range(len(row) -3):         #um innerhalb Spielfeld zu bleiben                                  
                 if row[i] != 0:                                                                                              
                     if (row[i] == row[i + 1] == row[i + 2] == row[i + 3]):          
-                        print("Wir haben einen horizontalen Sieger!") 
-                        print("Winning ELement: ", int(row[i]))
-                        self.winner = int(row[i])
-                        self.display()
                         return True                                                             
                     else:     
                         pass  
@@ -78,10 +75,6 @@ class Board():
             for i in range(len(row) - 3):                               #ab hier gleich
                 if row[i] != 0:                                             #schaut, ob Element nicht 0 ist
                     if row[i] == row[i + 1] == row[i + 2] == row[i + 3]:    #schuat, ob 4 Elemente in Folge gleich sind
-                        print("Wir haben einen vertikalen Sieger!")
-                        print("Winning ELement: ", int(row[i]))
-                        self.display() 
-                        self.winner = int(row[i])
                         return True                                                                          
                     else:                                                   
                         pass                                      
@@ -111,17 +104,9 @@ class Board():
         for x in main_diagonals:
             #sind 4 Elemente gleich und nicht 0, dann ist Gewinner
             if x[0] == x[1] == x[2] == x[3] and x[0] != 0:                    
-                print("Wir haben einen diagonalen Sieger!")
-                print("Winning ELement: ", int(x[0]))
-                self.display()
-                self.winner = int(x[0])
                 return True                                   
                 
             elif x[4] == x[3] == x[2] == x[1] and x[4] != 0:                            
-                print("Wir haben einen diagonalen Sieger!")
-                print("Winning ELement: ", int(x[4]))    
-                self.display()
-                self.winner = int(x[4])
                 return True                                                         
             
 
@@ -129,10 +114,6 @@ class Board():
             #erstellt Set aus allen Elementen der Nebendiagonalen
             #wenn Set nur ein Element und Element ungleich 0: Gewinner                                 
             if len(set(element)) == 1 and element != {0}:                    
-                print("Wir haben einen Nebendiagonalen Sieger!")
-                print("Winning Element: ", set(element))
-                self.display()
-                self.winner = set(element)
                 return True
 
         return False        #wenn kein Gewinner in Diagonalen

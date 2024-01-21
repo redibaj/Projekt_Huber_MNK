@@ -7,7 +7,8 @@ from random import randint
 class MyBotRandom(Player):
     '''Bot, der nur random Züge spielen kann'''
     def __init__(self, number):
-        self.number = number        
+        self.number = number 
+        self.name = "RandomBot"       
 
     def make_move(self, board = Board):  
         '''Ermöglicht dem Bot das Setzen seiner Markierung auf dem Spielfeld-Array.
@@ -31,6 +32,7 @@ class MyBot2(Player):
 
     def __init__(self, number):
         self.number = number
+        self.name = "MyBot2"
         self.winning_moves_bot2 = []
 
     def bot2_make_random_move(self, board):          
